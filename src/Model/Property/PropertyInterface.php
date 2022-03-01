@@ -5,6 +5,7 @@ namespace PhpDataMiner\Model\Property;
 use PhpDataMiner\Kernel\KernelInterface;
 use PhpDataMiner\Model\Property\Feature\Feature;
 use Doctrine\Common\Collections\Collection;
+use PhpDataMiner\Model\Property\Feature\FeatureInterface;
 
 /**
  *
@@ -73,19 +74,19 @@ interface PropertyInterface
     public function create(string $name, array $options = []): \PhpDataMiner\Model\Property\AbstractProperty;
 
     /**
-     * @return Feature[]|Collection
+     * @return FeatureInterface[]|Collection
      */
     public function getFeatures();
 
     /**
-     * @param Feature $feature
+     * @param FeatureInterface $feature
      * @return mixed
      */
-    public function addFeature(Feature $feature);
+    public function addFeature(FeatureInterface $feature);
 
     /**
-     * @param Feature $feature
+     * @param FeatureInterface $feature
      * @return mixed
      */
-    public function removeFeature(Feature $feature);
+    public function removeFeature(FeatureInterface $feature);
 }

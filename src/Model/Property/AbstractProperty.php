@@ -5,6 +5,7 @@ namespace PhpDataMiner\Model\Property;
 use PhpDataMiner\Helpers\OptionsBuilderTrait;
 use PhpDataMiner\Kernel\KernelInterface;
 use PhpDataMiner\Model\Property\Feature\Feature;
+use PhpDataMiner\Model\Property\Feature\FeatureInterface;
 use PhpDataMiner\Model\Property\Transformer\Transformer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -138,19 +139,19 @@ abstract class AbstractProperty implements PropertyInterface
     }
 
     /**
-     * @return Feature[]|Collection
+     * @return FeatureInterface[]|Collection
      */
     public function getFeatures()
     {
         return $this->features;
     }
 
-    public function addFeature(Feature $feature)
+    public function addFeature(FeatureInterface $feature)
     {
         $this->features->add($feature);
     }
 
-    public function removeFeature(Feature $feature)
+    public function removeFeature(FeatureInterface $feature)
     {
         $this->features->removeElement($feature);
     }
