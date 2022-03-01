@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpDataMinerNormalizer\Tokenizer;
+namespace PhpDataMiner\Normalizer\Tokenizer;
 
 use Rubix\ML\Tokenizers\Tokenizer;
 

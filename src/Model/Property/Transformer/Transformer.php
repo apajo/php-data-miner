@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpDataMinerModel\Property\Transformer;
+namespace PhpDataMiner\Model\Property\Transformer;
 
 /**
  * Description of Transformer

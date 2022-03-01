@@ -1,8 +1,8 @@
 <?php
 
-namespace PhpDataMinerModel\Property;
+namespace PhpDataMiner\Model\Property;
 
-use PhpDataMinerModel\Property\Transformer\CallbackTransformer;
+use PhpDataMiner\Model\Property\Transformer\CallbackTransformer;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FloatProperty extends AbstractProperty

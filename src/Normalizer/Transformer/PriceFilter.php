@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpDataMinerNormalizer\Transformer;
+namespace PhpDataMiner\Normalizer\Transformer;
 
 /**
  * Description of PriceFilter

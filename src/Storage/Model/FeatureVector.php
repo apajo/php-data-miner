@@ -1,7 +1,7 @@
 <?php
 
 
-namespace PhpDataMinerStorage\Model;
+namespace PhpDataMiner\Storage\Model;
 
 /**
  * Description of FeatureVector

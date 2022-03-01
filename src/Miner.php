@@ -2,21 +2,21 @@
 
 namespace PhpDataMiner;
 
-use PhpDataMinerHelpers\OptionsBuilderTrait;
-use PhpDataMinerHelpers\ResolveResult;
-use PhpDataMinerKernel\KernelInterface;
-use PhpDataMinerModel\Describer;
-use PhpDataMinerModel\Mapper;
-use PhpDataMinerModel\Property\Property;
-use PhpDataMinerModel\Property\PropertyInterface;
-use PhpDataMinerModel\Property\Provider;
-use PhpDataMinerModel\Property\Registry;
-use PhpDataMinerNormalizer\Document\Document;
-use PhpDataMinerNormalizer\Normalizer;
-use PhpDataMinerNormalizer\Tokenizer\Token\TokenInterface;
-use PhpDataMinerStorage\Model\EntryInterface;
-use PhpDataMinerStorage\Model\ModelInterface;
-use PhpDataMinerStorage\StorageInterface;
+use PhpDataMiner\Helpers\OptionsBuilderTrait;
+use PhpDataMiner\Helpers\ResolveResult;
+use PhpDataMiner\Kernel\KernelInterface;
+use PhpDataMiner\Model\Describer;
+use PhpDataMiner\Model\Mapper;
+use PhpDataMiner\Model\Property\Property;
+use PhpDataMiner\Model\Property\PropertyInterface;
+use PhpDataMiner\Model\Property\Provider;
+use PhpDataMiner\Model\Property\Registry;
+use PhpDataMiner\Normalizer\Document\Document;
+use PhpDataMiner\Normalizer\Normalizer;
+use PhpDataMiner\Normalizer\Tokenizer\Token\TokenInterface;
+use PhpDataMiner\Storage\Model\EntryInterface;
+use PhpDataMiner\Storage\Model\ModelInterface;
+use PhpDataMiner\Storage\StorageInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -52,7 +52,7 @@ class Miner
         $this->kernel = $kernel;
 
         $this->mapper = new Mapper([
-            'provider' => new Provider(new Registry($this->options['property_types']))
+            'provider' => $this->options['properties']
         ]);
 
         $this->storage =  $this->getOption('storage');
@@ -164,9 +164,9 @@ class Miner
     {
         $resolver->setDefaults([
             'storage' => null,
-            'property_types' => [
+            'properties' => new Provider(new Registry([
                 new Property(),
-            ]
+            ]))
         ]);
     }
 }

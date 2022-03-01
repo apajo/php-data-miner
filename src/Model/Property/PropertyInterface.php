@@ -1,9 +1,9 @@
 <?php
 
-namespace PhpDataMinerModel\Property;
+namespace PhpDataMiner\Model\Property;
 
-use PhpDataMinerKernel\KernelInterface;
-use PhpDataMinerModel\Property\Feature\Feature;
+use PhpDataMiner\Kernel\KernelInterface;
+use PhpDataMiner\Model\Property\Feature\Feature;
 use Doctrine\Common\Collections\Collection;
 
 /**
@@ -70,7 +70,7 @@ interface PropertyInterface
      * @param array $options
      * @return AbstractProperty
      */
-    public function create(string $name, array $options = []): \PhpDataMinerModel\Property\AbstractProperty;
+    public function create(string $name, array $options = []): \PhpDataMiner\Model\Property\AbstractProperty;
 
     /**
      * @return Feature[]|Collection

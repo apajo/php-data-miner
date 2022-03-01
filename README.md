@@ -26,8 +26,8 @@ $ sudo apt-get install make gcc gfortran php-dev libopenblas-dev liblapacke-dev 
 Annotate your model with `@Model()` and properties with `@Property()` annotations.
 
 ```php
-use PhpDataMinerModel\Annotation\Model;
-use PhpDataMinerModel\Annotation\Property;
+use PhpDataMiner\Model\Annotation\Model;
+use PhpDataMiner\Model\Annotation\Property;
 
 /**
  * @Model()
@@ -99,12 +99,12 @@ $predictedProperties = $miner->predict($entity, $doc);
 
 #### Entry discrimination (filtering)
 
-Edit your storage model `PhpDataMinerStorage\Model\Model::createEntryDiscriminator()` method to set entry filter:
+Edit your storage model `PhpDataMiner\Storage\Model\Model::createEntryDiscriminator()` method to set entry filter:
 
 ```php
 
-use PhpDataMinerStorage\Model\Model;
-use PhpDataMinerStorage\Model\ModelInterface;
+use PhpDataMiner\Storage\Model\Model;
+use PhpDataMiner\Storage\Model\ModelInterface;
 
 class InvoiceModel extends Model implements ModelInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpDataMinerStorage\Builder;
+namespace PhpDataMiner\Storage\Builder;
 
 
 /**

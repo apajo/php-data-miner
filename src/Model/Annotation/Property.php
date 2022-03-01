@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpDataMinerModel\Annotation;
+namespace PhpDataMiner\Model\Annotation;
 
 
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;

@@ -1,8 +1,8 @@
 <?php
 
-namespace PhpDataMinerNormalizer\Tokenizer\Token;
+namespace PhpDataMiner\Normalizer\Tokenizer\Token;
 
-use PhpDataMinerHelpers\OptionsBuilderTrait;
+use PhpDataMiner\Helpers\OptionsBuilderTrait;
 
 /**
  * Description of TokenTrait

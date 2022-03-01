@@ -1,8 +1,8 @@
 <?php
 
-namespace PhpDataMinerModel\Annotation;
+namespace PhpDataMiner\Model\Annotation;
 
-use PhpDataMinerStorage\Model\Model as StorageModel;
+use PhpDataMiner\Storage\Model\Model as StorageModel;
 
 /**
  * @Annotation

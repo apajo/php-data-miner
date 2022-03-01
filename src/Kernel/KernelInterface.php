@@ -1,14 +1,14 @@
 <?php
 
-namespace PhpDataMinerKernel;
+namespace PhpDataMiner\Kernel;
 
 
-use PhpDataMinerModel\Property\PropertyInterface;
-use PhpDataMinerNormalizer\Document\Document;
-use PhpDataMinerNormalizer\Tokenizer\Token\TokenInterface;
-use PhpDataMinerStorage\Model\Entry;
-use PhpDataMinerStorage\Model\EntryInterface;
-use PhpDataMinerStorage\Model\ModelInterface;
+use PhpDataMiner\Model\Property\PropertyInterface;
+use PhpDataMiner\Normalizer\Document\Document;
+use PhpDataMiner\Normalizer\Tokenizer\Token\TokenInterface;
+use PhpDataMiner\Storage\Model\Entry;
+use PhpDataMiner\Storage\Model\EntryInterface;
+use PhpDataMiner\Storage\Model\ModelInterface;
 use Doctrine\Common\Collections\Collection;
 
 /**

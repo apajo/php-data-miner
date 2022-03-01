@@ -1,9 +1,9 @@
 <?php
 
-namespace PhpDataMinerNormalizer\Tokenizer;
+namespace PhpDataMiner\Normalizer\Tokenizer;
 
-use PhpDataMinerHelpers\OptionsBuilderTrait;
-use PhpDataMinerNormalizer\Tokenizer\Token\TokenInterface;
+use PhpDataMiner\Helpers\OptionsBuilderTrait;
+use PhpDataMiner\Normalizer\Tokenizer\Token\TokenInterface;
 use Rubix\ML\Tokenizers\Tokenizer as Base;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpDataMinerStorage;
+namespace PhpDataMiner\Storage;
 
 /**
  * Description of AbstractStorage

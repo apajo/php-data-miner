@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpDataMinerNormalizer\Document;
+namespace PhpDataMiner\Normalizer\Document;
 
 use ArrayIterator;
 

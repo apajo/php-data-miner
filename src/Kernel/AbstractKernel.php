@@ -1,16 +1,16 @@
 <?php
 
-namespace PhpDataMinerKernel;
+namespace PhpDataMiner\Kernel;
 
 use Core\BaseBundle\Entity\Miner\StorageFeature;
-use PhpDataMinerModel\Property\PropertyInterface;
-use PhpDataMinerNormalizer\Document\Document;
-use PhpDataMinerNormalizer\Tokenizer\Token\Token;
-use PhpDataMinerNormalizer\Tokenizer\Token\TokenInterface;
-use PhpDataMinerStorage\Model\Entry;
-use PhpDataMinerStorage\Model\EntryInterface;
-use PhpDataMinerStorage\Model\ModelInterface;
-use PhpDataMinerStorage\Model\PropertyInterface as StoragePropertyInterface;
+use PhpDataMiner\Model\Property\PropertyInterface;
+use PhpDataMiner\Normalizer\Document\Document;
+use PhpDataMiner\Normalizer\Tokenizer\Token\Token;
+use PhpDataMiner\Normalizer\Tokenizer\Token\TokenInterface;
+use PhpDataMiner\Storage\Model\Entry;
+use PhpDataMiner\Storage\Model\EntryInterface;
+use PhpDataMiner\Storage\Model\ModelInterface;
+use PhpDataMiner\Storage\Model\PropertyInterface as StoragePropertyInterface;
 use Doctrine\Common\Collections\Collection;
 use Rubix\ML\Datasets\Labeled;
 use Rubix\ML\Datasets\Unlabeled;

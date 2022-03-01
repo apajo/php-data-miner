@@ -1,12 +1,12 @@
 <?php
 
-namespace PhpDataMinerNormalizer\Document;
+namespace PhpDataMiner\Normalizer\Document;
 
 use ArrayIterator;
-use PhpDataMinerHelpers\OptionsBuilderTrait;
-use PhpDataMinerNormalizer\Tokenizer\Token\Cluster;
-use PhpDataMinerNormalizer\Tokenizer\Token\Token;
-use PhpDataMinerNormalizer\Tokenizer\Token\TokenInterface;
+use PhpDataMiner\Helpers\OptionsBuilderTrait;
+use PhpDataMiner\Normalizer\Tokenizer\Token\Cluster;
+use PhpDataMiner\Normalizer\Tokenizer\Token\Token;
+use PhpDataMiner\Normalizer\Tokenizer\Token\TokenInterface;
 use Rubix\ML\Tokenizers\Tokenizer;
 use Rubix\ML\Transformers\Transformer;
 use Symfony\Component\OptionsResolver\OptionsResolver;

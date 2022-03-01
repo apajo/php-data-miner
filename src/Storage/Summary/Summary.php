@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpDataMinerStorage\Summary;
+namespace PhpDataMiner\Storage\Summary;
 
 class Summary
 {

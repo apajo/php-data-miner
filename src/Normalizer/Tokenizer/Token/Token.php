@@ -1,8 +1,8 @@
 <?php
 
-namespace PhpDataMinerNormalizer\Tokenizer\Token;
+namespace PhpDataMiner\Normalizer\Tokenizer\Token;
 
-use PhpDataMinerNormalizer\Document\Pointer;
+use PhpDataMiner\Normalizer\Document\Pointer;
 use Stringable;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

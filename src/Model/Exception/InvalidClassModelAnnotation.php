@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpDataMinerModel;
+namespace PhpDataMiner\Model;
 
 
 use Exception;

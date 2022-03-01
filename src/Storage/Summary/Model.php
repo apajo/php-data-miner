@@ -1,13 +1,13 @@
 <?php
-namespace PhpDataMinerStorage\Summary;
+namespace PhpDataMiner\Storage\Summary;
 
-use PhpDataMinerModel\Property\PropertyInterface;
-use PhpDataMinerStorage\Model\Discriminator\DiscriminatorInterface;
-use PhpDataMinerStorage\Model\Entry;
-use PhpDataMinerStorage\Model\LabelInterface;
-use PhpDataMinerStorage\Model\ModelInterface;
-use PhpDataMinerStorage\Model\PropertyInterface as StoragePropertyInterface;
-use PhpDataMinerStorage\StorageInterface;
+use PhpDataMiner\Model\Property\PropertyInterface;
+use PhpDataMiner\Storage\Model\Discriminator\DiscriminatorInterface;
+use PhpDataMiner\Storage\Model\Entry;
+use PhpDataMiner\Storage\Model\LabelInterface;
+use PhpDataMiner\Storage\Model\ModelInterface;
+use PhpDataMiner\Storage\Model\PropertyInterface as StoragePropertyInterface;
+use PhpDataMiner\Storage\StorageInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**

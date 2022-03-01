@@ -2,7 +2,7 @@
 
 namespace PhpDataMiner;
 
-use PhpDataMinerKernel\KernelInterface;
+use PhpDataMiner\Kernel\KernelInterface;
 
 class DataMiner
 {

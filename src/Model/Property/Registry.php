@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpDataMinerModel\Property;
+namespace PhpDataMiner\Model\Property;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

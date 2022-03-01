@@ -1,8 +1,8 @@
 <?php
 
-namespace PhpDataMinerNormalizer\Tokenizer\Token;
+namespace PhpDataMiner\Normalizer\Tokenizer\Token;
 
-use PhpDataMinerNormalizer\Tokenizer\TokenizerInterface;
+use PhpDataMiner\Normalizer\Tokenizer\TokenizerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace PhpDataMinerStorage\Model;
+namespace PhpDataMiner\Storage\Model;
 
 
-use PhpDataMinerModel\Property\PropertyInterface;
-use PhpDataMinerStorage\Model\Discriminator\DiscriminatorInterface;
+use PhpDataMiner\Model\Property\PropertyInterface;
+use PhpDataMiner\Storage\Model\Discriminator\DiscriminatorInterface;
 use Doctrine\Common\Collections\Collection;
 
 /**

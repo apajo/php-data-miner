@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpDataMinerHelpers;
+namespace PhpDataMiner\Helpers;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

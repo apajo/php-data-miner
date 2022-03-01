@@ -1,8 +1,8 @@
 <?php
 
-namespace PhpDataMinerNormalizer\Transformer;
+namespace PhpDataMiner\Normalizer\Transformer;
 
-use PhpDataMinerNormalizer\Tokenizer\Token\Token;
+use PhpDataMiner\Normalizer\Tokenizer\Token\Token;
 
 /**
  * Description of RegexFilter

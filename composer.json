@@ -44,7 +44,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "PhpDataMinerTests\\": "tests/"
+            "PhpDataMiner\\Tests\\": "tests/"
         }
     },
     "replace": {

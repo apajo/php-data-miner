@@ -1,9 +1,9 @@
 <?php
 
-namespace PhpDataMinerStorage\Model;
+namespace PhpDataMiner\Storage\Model;
 
 
-use PhpDataMinerStorage\Model\Discriminator\DiscriminatorInterface;
+use PhpDataMiner\Storage\Model\Discriminator\DiscriminatorInterface;
 use Doctrine\Common\Collections\Collection;
 
 /**

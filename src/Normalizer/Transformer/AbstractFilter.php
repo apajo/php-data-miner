@@ -1,8 +1,8 @@
 <?php
 
-namespace PhpDataMinerNormalizer\Transformer;
+namespace PhpDataMiner\Normalizer\Transformer;
 
-use PhpDataMinerHelpers\OptionsBuilderTrait;
+use PhpDataMiner\Helpers\OptionsBuilderTrait;
 use Rubix\ML\Transformers\RegexFilter;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
