@@ -1,0 +1,63 @@
+{
+    "name": "apajo/php-data-miner",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andres Pajo",
+            "email": "andres@apajo.ee"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://git.apajo.ee/"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "doctrine/annotations": "^1.13",
+        "doctrine/collections": "^1.6",
+        "phpdocumentor/reflection-docblock": "^5.0",
+        "rubix/ml": "^1.3",
+        "scienide/okbloomer": "^1",
+        "spatie/pdf-to-text": "^1.4",
+        "symfony/inflector": "^4.4",
+        "symfony/options-resolver": "^4.4",
+        "symfony/property-access": "^4.4",
+        "symfony/property-info": "^4.4",
+        "wamania/php-stemmer": "2",
+        "yooper/php-text-analysis": "^1.7"
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "files": [ "var/dump.php" ],
+        "psr-4": {
+            "DataMiner\\": "src/"
+        },
+        "classmap": [ ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DataMinerTests\\": "tests/"
+        }
+    },
+    "replace": {
+        "wamania/php-stemmer": "*",
+        "scienide/okbloomer": "*"
+    },
+    "scripts": {
+        "post-install-cmd": [
+        ],
+        "post-update-cmd": [
+        ]
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^4.4"
+    }
+}
