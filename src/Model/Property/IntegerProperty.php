@@ -1,8 +1,8 @@
 <?php
 
-namespace DataMiner\Model\Property;
+namespace PhpDataMinerModel\Property;
 
-use DataMiner\Model\Property\Transformer\CallbackTransformer;
+use PhpDataMinerModel\Property\Transformer\CallbackTransformer;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IntegerProperty extends AbstractProperty

@@ -1,14 +1,14 @@
 <?php
 
-namespace DataMiner\Storage;
+namespace PhpDataMinerStorage;
 
 
-use DataMiner\Model\Property\PropertyInterface;
-use DataMiner\Storage\Model\Discriminator\DiscriminatorInterface;
-use DataMiner\Storage\Model\EntryInterface;
-use DataMiner\Storage\Model\LabelInterface;
-use DataMiner\Storage\Model\ModelInterface;
-use DataMiner\Storage\Model\Property;
+use PhpDataMinerModel\Property\PropertyInterface;
+use PhpDataMinerStorage\Model\Discriminator\DiscriminatorInterface;
+use PhpDataMinerStorage\Model\EntryInterface;
+use PhpDataMinerStorage\Model\LabelInterface;
+use PhpDataMinerStorage\Model\ModelInterface;
+use PhpDataMinerStorage\Model\Property;
 
 /**
  * Description of AbstractStorage

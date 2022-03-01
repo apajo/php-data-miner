@@ -1,9 +1,9 @@
 <?php
 
-namespace DataMiner\Storage\Model;
+namespace PhpDataMinerStorage\Model;
 
 
-use DataMiner\Model\Property\PropertyInterface;
+use PhpDataMinerModel\Property\PropertyInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 

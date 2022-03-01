@@ -1,9 +1,9 @@
 <?php
 
-namespace DataMiner\Storage\Builder;
+namespace PhpDataMinerStorage\Builder;
 
 
-use DataMiner\Storage\StorageInterface;
+use PhpDataMinerStorage\StorageInterface;
 
 /**
  * Description of Builder

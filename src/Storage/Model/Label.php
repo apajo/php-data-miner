@@ -1,6 +1,6 @@
 <?php
 
-namespace DataMiner\Storage\Model;
+namespace PhpDataMinerStorage\Model;
 
 /**
  * Description of Label

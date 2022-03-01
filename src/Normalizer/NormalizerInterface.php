@@ -1,8 +1,8 @@
 <?php
 
-namespace DataMiner\Normalizer;
+namespace PhpDataMinerNormalizer;
 
-use DataMiner\Normalizer\Document\Document;
+use PhpDataMinerNormalizer\Document\Document;
 use Rubix\ML\Tokenizers\Tokenizer;
 use Rubix\ML\Transformers\Transformer;
 

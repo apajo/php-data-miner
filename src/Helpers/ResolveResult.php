@@ -1,9 +1,9 @@
 <?php
 
-namespace DataMiner\Helpers;
+namespace PhpDataMinerHelpers;
 
-use DataMiner\Model\Property\PropertyInterface;
-use DataMiner\Normalizer\Tokenizer\Token\TokenInterface;
+use PhpDataMinerModel\Property\PropertyInterface;
+use PhpDataMinerNormalizer\Tokenizer\Token\TokenInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class ResolveResult

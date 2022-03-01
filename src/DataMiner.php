@@ -1,8 +1,8 @@
 <?php
 
-namespace DataMiner;
+namespace PhpDataMiner;
 
-use DataMiner\Kernel\KernelInterface;
+use PhpDataMinerKernel\KernelInterface;
 
 class DataMiner
 {

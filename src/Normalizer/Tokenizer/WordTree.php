@@ -1,10 +1,10 @@
 <?php
 
-namespace DataMiner\Normalizer\Tokenizer;
+namespace PhpDataMinerNormalizer\Tokenizer;
 
-use DataMiner\Normalizer\Tokenizer\Token\Cluster;
-use DataMiner\Normalizer\Tokenizer\Token\Token;
-use DataMiner\Normalizer\Tokenizer\Token\TokenInterface;
+use PhpDataMinerNormalizer\Tokenizer\Token\Cluster;
+use PhpDataMinerNormalizer\Tokenizer\Token\Token;
+use PhpDataMinerNormalizer\Tokenizer\Token\TokenInterface;
 
 /**
  * Description of Word

@@ -1,9 +1,9 @@
 <?php
 
-namespace DataMiner\Model\Property\Feature;
+namespace PhpDataMinerModel\Property\Feature;
 
-use DataMiner\Normalizer\Tokenizer\Token\Token;
-use DataMiner\Storage\Model\FeatureVector;
+use PhpDataMinerNormalizer\Tokenizer\Token\Token;
+use PhpDataMinerStorage\Model\FeatureVector;
 
 class Feature
 {

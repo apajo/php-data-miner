@@ -1,9 +1,9 @@
 <?php
 
 
-namespace DataMiner\Model\Property;
+namespace PhpDataMinerModel\Property;
 
-use DataMiner\Model\Annotation\Property as PropertyAnnotation;
+use PhpDataMinerModel\Annotation\Property as PropertyAnnotation;
 use Doctrine\Common\Collections\ArrayCollection;
 use ReflectionProperty;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;

@@ -1,6 +1,6 @@
 <?php
 
-namespace DataMiner\Normalizer\Exception;
+namespace PhpDataMinerNormalizer\Exception;
 
 /**
  * Description of ValueTraverseException

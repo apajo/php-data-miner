@@ -1,12 +1,12 @@
 <?php
 
-namespace DataMiner\Storage\Model;
+namespace PhpDataMinerStorage\Model;
 
 use Doctrine\Common\Collections\Collection;
 
 /**
  * Interface PropertyInterface
- * @package DataMiner\Storage\Model
+ * @package PhpDataMinerStorage\Model
  */
 interface PropertyInterface
 {

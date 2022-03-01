@@ -1,6 +1,6 @@
 <?php
 
-namespace DataMiner\Normalizer\Tokenizer;
+namespace PhpDataMinerNormalizer\Tokenizer;
 
 /**
  * Description of Column

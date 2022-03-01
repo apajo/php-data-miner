@@ -1,6 +1,6 @@
 <?php
 
-namespace DataMiner\Model\Annotation;
+namespace PhpDataMinerModel\Annotation;
 
 /**
  * Description of AnnotationInterface

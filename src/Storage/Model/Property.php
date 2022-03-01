@@ -1,7 +1,7 @@
 <?php
 
 
-namespace DataMiner\Storage\Model;
+namespace PhpDataMinerStorage\Model;
 
 
 use Doctrine\Common\Collections\ArrayCollection;

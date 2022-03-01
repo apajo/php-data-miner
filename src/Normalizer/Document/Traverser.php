@@ -1,9 +1,9 @@
 <?php
 
-namespace DataMiner\Normalizer\Document;
+namespace PhpDataMinerNormalizer\Document;
 
-use DataMiner\Model\Property\PropertyInterface;
-use DataMiner\Normalizer\Tokenizer\Token\TokenInterface;
+use PhpDataMinerModel\Property\PropertyInterface;
+use PhpDataMinerNormalizer\Tokenizer\Token\TokenInterface;
 
 class Traverser
 {

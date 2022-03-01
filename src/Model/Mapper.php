@@ -1,18 +1,18 @@
 <?php
 
 
-namespace DataMiner\Model;
+namespace PhpDataMinerModel;
 
 use ArrayIterator;
 use ArrayObject;
-use DataMiner\Helpers\OptionsBuilderTrait;
-use DataMiner\Model\Annotation\Collection;
-use DataMiner\Model\Annotation\Ignore;
-use DataMiner\Model\Annotation\Model;
-use DataMiner\Model\Annotation\Property as PropertyAnnotation;
-use DataMiner\Model\Property\Property;
-use DataMiner\Model\Property\PropertyInterface;
-use DataMiner\Model\Property\Provider;
+use PhpDataMinerHelpers\OptionsBuilderTrait;
+use PhpDataMinerModel\Annotation\Collection;
+use PhpDataMinerModel\Annotation\Ignore;
+use PhpDataMinerModel\Annotation\Model;
+use PhpDataMinerModel\Annotation\Property as PropertyAnnotation;
+use PhpDataMinerModel\Property\Property;
+use PhpDataMinerModel\Property\PropertyInterface;
+use PhpDataMinerModel\Property\Provider;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use ReflectionClass;
@@ -23,7 +23,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\PropertyAccess\PropertyPathBuilder;
 
 AnnotationRegistry::registerLoader('class_exists');
-AnnotationRegistry::registerAutoloadNamespace('DataMiner\Model\Annotation', __DIR__ . "/../src/Model/Annotation");
+AnnotationRegistry::registerAutoloadNamespace('PhpDataMinerModel\Annotation', __DIR__ . "/../src/Model/Annotation");
 
 class Mapper
 {

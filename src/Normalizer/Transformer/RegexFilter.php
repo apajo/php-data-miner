@@ -1,6 +1,6 @@
 <?php
 
-namespace DataMiner\Normalizer\Transformer;
+namespace PhpDataMinerNormalizer\Transformer;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

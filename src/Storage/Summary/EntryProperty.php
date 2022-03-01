@@ -1,5 +1,5 @@
 <?php
-namespace DataMiner\Storage\Summary;
+namespace PhpDataMinerStorage\Summary;
 
 /**
  * Description of EntryProperty

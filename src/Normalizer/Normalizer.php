@@ -1,9 +1,9 @@
 <?php
 
-namespace DataMiner\Normalizer;
+namespace PhpDataMinerNormalizer;
 
-use DataMiner\Helpers\OptionsBuilderTrait;
-use DataMiner\Normalizer\Document\Document;
+use PhpDataMinerHelpers\OptionsBuilderTrait;
+use PhpDataMinerNormalizer\Document\Document;
 use Exception;
 use Rubix\ML\Tokenizers\Tokenizer;
 use Rubix\ML\Transformers\Transformer;

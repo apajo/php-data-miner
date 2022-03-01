@@ -1,11 +1,11 @@
 <?php
 
-namespace DataMiner\Model\Property;
+namespace PhpDataMinerModel\Property;
 
-use DataMiner\Helpers\OptionsBuilderTrait;
-use DataMiner\Kernel\KernelInterface;
-use DataMiner\Model\Property\Feature\Feature;
-use DataMiner\Model\Property\Transformer\Transformer;
+use PhpDataMinerHelpers\OptionsBuilderTrait;
+use PhpDataMinerKernel\KernelInterface;
+use PhpDataMinerModel\Property\Feature\Feature;
+use PhpDataMinerModel\Property\Transformer\Transformer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\OptionsResolver\OptionsResolver;

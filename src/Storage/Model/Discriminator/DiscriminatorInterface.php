@@ -1,6 +1,6 @@
 <?php
 
-namespace DataMiner\Storage\Model\Discriminator;
+namespace PhpDataMinerStorage\Model\Discriminator;
 
 /**
  * Entry discriminator

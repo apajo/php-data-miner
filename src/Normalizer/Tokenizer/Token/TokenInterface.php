@@ -1,6 +1,6 @@
 <?php
 
-namespace DataMiner\Normalizer\Tokenizer\Token;
+namespace PhpDataMinerNormalizer\Tokenizer\Token;
 
 
 /**

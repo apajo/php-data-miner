@@ -1,22 +1,22 @@
 <?php
 
-namespace DataMiner;
+namespace PhpDataMiner;
 
-use DataMiner\Helpers\OptionsBuilderTrait;
-use DataMiner\Helpers\ResolveResult;
-use DataMiner\Kernel\KernelInterface;
-use DataMiner\Model\Describer;
-use DataMiner\Model\Mapper;
-use DataMiner\Model\Property\Property;
-use DataMiner\Model\Property\PropertyInterface;
-use DataMiner\Model\Property\Provider;
-use DataMiner\Model\Property\Registry;
-use DataMiner\Normalizer\Document\Document;
-use DataMiner\Normalizer\Normalizer;
-use DataMiner\Normalizer\Tokenizer\Token\TokenInterface;
-use DataMiner\Storage\Model\EntryInterface;
-use DataMiner\Storage\Model\ModelInterface;
-use DataMiner\Storage\StorageInterface;
+use PhpDataMinerHelpers\OptionsBuilderTrait;
+use PhpDataMinerHelpers\ResolveResult;
+use PhpDataMinerKernel\KernelInterface;
+use PhpDataMinerModel\Describer;
+use PhpDataMinerModel\Mapper;
+use PhpDataMinerModel\Property\Property;
+use PhpDataMinerModel\Property\PropertyInterface;
+use PhpDataMinerModel\Property\Provider;
+use PhpDataMinerModel\Property\Registry;
+use PhpDataMinerNormalizer\Document\Document;
+use PhpDataMinerNormalizer\Normalizer;
+use PhpDataMinerNormalizer\Tokenizer\Token\TokenInterface;
+use PhpDataMinerStorage\Model\EntryInterface;
+use PhpDataMinerStorage\Model\ModelInterface;
+use PhpDataMinerStorage\StorageInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
