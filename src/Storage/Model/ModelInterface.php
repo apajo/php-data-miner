@@ -83,4 +83,7 @@ interface ModelInterface
      * @param string $model
      */
     public function setModel(string $model): void;
+
+    public function resolveSamples (PropertyInterface $property = null, EntryInterface $entry): array;
+    public function resolveLabels (PropertyInterface $property = null): Collection;
 }

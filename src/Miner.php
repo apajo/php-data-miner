@@ -154,16 +154,6 @@ class Miner
     {
         $resolver->setDefaults([
             'storage' => null,
-            'property_types' => [
-                new Property(),
-            ]
-        ]);
-    }
-
-    protected function buildVectors(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'storage' => null,
             'properties' => new Provider(new Registry([
                 new Property(),
             ]))

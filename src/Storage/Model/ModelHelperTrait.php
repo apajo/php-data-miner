@@ -42,12 +42,11 @@ trait ModelHelperTrait
      * @param PropertyInterface|null $property
      * @return Collection
      */
-    public function resolveSamples (PropertyInterface $property = null, EntryInterface $entry): array
+    public function resolveSamples (PropertyInterface $property = null, EntryInterface $entry = null): array
     {
         $samples = [];
-        $discriminator = $entry->getDiscriminator();
 
-        foreach ($this->getEntries($discriminator) as $entry) {
+        foreach ($this->getEntries() as $entry) { dump($entry);
             if ($entry->getProperty()->getName() !== $property->getPropertyPath()) {
                 continue;
             }
