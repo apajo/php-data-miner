@@ -2,12 +2,12 @@
 
 namespace DataMinerTests;
 
-use DataMiner\Miner;
-use DataMiner\Model\Annotation\Model;
 use DataMiner\Model\Annotation\Property\Property;
-use DataMinerTests\Model\Ancestor;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
+use Rubix\ML\Classifiers\KNearestNeighbors;
+use Rubix\ML\Datasets\Labeled;
+use Rubix\ML\Datasets\Unlabeled;
+use Rubix\ML\Kernels\Distance\Manhattan;
+use Rubix\ML\Tokenizers\Sentence;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -16,18 +16,20 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
 });
 
 
-use Rubix\ML\Classifiers\KNearestNeighbors;
-use Rubix\ML\Datasets\Labeled;
-use Rubix\ML\Datasets\Unlabeled;
-use Rubix\ML\Kernels\Distance\Manhattan;
-use Rubix\ML\Tokenizers\Sentence;
-
 $tokenizer = new Sentence();
 
+
+function testData () {
+    return [
+        rand(0, 5),
+        rand(0, 5),
+        rand(0, 5),
+    ];
+}
 $data = [
-//    ['aa00', [4, 3, 2]],
-//    ['aa11', [1, 1, 0]],
-//    ['bb11', [2, 2, 0]],
+//    ['aa00', testData()],
+//    ['aa11', testData()],
+//    ['bb11', testData()],
 //    ['cc000', [3, 3, 0]],
 //    ['dd10', [4, 4, 6]],
 //    ['dd12', [4, 4, 2]],
@@ -36,11 +38,11 @@ $data = [
 //    ['cc111', [3, 3, 0]],
 //    ['cc111', [3, 3, 0]],
 ];
-
-$grps = 6;
 $target = [3, 0, 1];
+$grps = 6;
+$target = [30, 0, 1];
 for ($i = 0; $i < 50; $i++) {
-    $data[] = [(string)($i % $grps), [($i % $grps), rand(0, 9), rand(0, 9)]];
+    $data[] = [(string)($i % $grps), [($i % $grps) * 10, rand(0, 9), rand(0, 9)]];
 }
 echo(
 implode( "\n",
