@@ -21,7 +21,6 @@ class TestModel extends Base
     public static function createEntryDiscriminator($value): DiscriminatorInterface
     {
         return new Discriminator([
-            $value->age,
             $value->id,
         ]);
     }

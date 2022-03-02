@@ -2,6 +2,7 @@
 
 namespace PhpDataMinerTests\Kernel;
 
+use DataMiner\Model\FeatureVector;
 use PhpDataMiner\Kernel\AbstractKernel;
 use PhpDataMiner\Kernel\KernelInterface;
 use PhpDataMiner\Storage\Model\EntryInterface;
@@ -28,8 +29,16 @@ class TestKernel extends AbstractKernel implements KernelInterface
 
     public function train (EntryInterface $entry, PropertyInterface $property)
     {
-        $samples = $entry->getModel()->resolveSamples($property);
+        $prop = $entry->getProperty($property->getPropertyPath());
+        dd([
+            $prop->getLabel()->getValue(),
+            $prop->getFeatureVectors()->map(function (FeatureVector $a) {
+                return $a->getValue();
+            })->toArray()
+        ]);
 
+        $samples = $entry->getModel()->resolveSamples($property, $entry);
+dd($samples);
         $dataset = new Labeled(
             array_map(function ($a) {
                 return array_map('intval', explode('.', $a));
@@ -71,11 +80,13 @@ class TestKernel extends AbstractKernel implements KernelInterface
         $labels = [];
 
         foreach ($model->getEntries() as $entry) {
-            if ($entry->getProperty()->getName() !== $property->getPropertyPath()){
+            $prop = $entry->getProperty($property->getPropertyPath());
+
+            if (!$prop) {
                 continue;
             }
-
-            $value = $entry->getLabel()->getValue();
+dump($prop->getLabel());
+            $value = $prop->getLabel()->getValue();
 
             if (!isset($labels[$value])){
                 $labels[$value] = [];

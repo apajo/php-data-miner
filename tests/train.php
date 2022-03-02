@@ -2,11 +2,14 @@
 
 namespace DataMinerTests;
 
-use DataMiner\Model\Annotation\Property\Property;
 use Rubix\ML\Classifiers\KNearestNeighbors;
+use Rubix\ML\Clusterers\KMeans;
 use Rubix\ML\Datasets\Labeled;
 use Rubix\ML\Datasets\Unlabeled;
 use Rubix\ML\Kernels\Distance\Manhattan;
+use Rubix\ML\PersistentModel;
+use Rubix\ML\Persisters\Filesystem;
+use Rubix\ML\Serializers\RBX;
 use Rubix\ML\Tokenizers\Sentence;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -27,23 +30,22 @@ function testData () {
     ];
 }
 $data = [
-//    ['aa00', testData()],
-//    ['aa11', testData()],
-//    ['bb11', testData()],
-//    ['cc000', [3, 3, 0]],
-//    ['dd10', [4, 4, 6]],
-//    ['dd12', [4, 4, 2]],
-//    ['dd13', [4, 4, 0]],
-//    ['dd11', [4, 4, 0]],
-//    ['cc111', [3, 3, 0]],
-//    ['cc111', [3, 3, 0]],
 ];
-$target = [3, 0, 1];
-$grps = 6;
-$target = [30, 0, 1];
-for ($i = 0; $i < 50; $i++) {
-    $data[] = [(string)($i % $grps), [($i % $grps) * 10, rand(0, 9), rand(0, 9)]];
+
+$grps = 10;
+$target = [5, 0, 1];
+
+for ($i = 0; $i < 100; $i++) {
+    $item = [(string)(($i % $grps)), [rand(0, 9), rand(0, 9), rand(0, 9)]];
+
+    if (rand(0, 1) === 0) {
+        $item = [(string)(($i % $grps)), [5, 0, rand(0, 9)]];
+    }
+
+    $data[] = $item;
 }
+
+
 echo(
 implode( "\n",
     array_map(
@@ -53,20 +55,28 @@ implode( "\n",
         array_chunk(array_map(function (array $a) {
             return implode(' ', ['['.$a[0].']', implode('.', array_map(function (string $b) {
                     return str_pad($b, 2, " ", STR_PAD_LEFT);
-                }, $a[1]))]) . "\t";
+                }, $a[1]))]) . "  ";
         }, $data), $grps)
     )
 )
 );
 
-$classifier = new KNearestNeighbors(3, false, new Manhattan());
-$classifier->train(new Labeled(array_column($data, 1), array_column($data, 0)));
+$path = realpath(__DIR__ . '/../var/cache') . '/train';
+if (is_file($path)) {
+    $estimator = PersistentModel::load(new Filesystem($path), new RBX());
+} else {
+    $estimator = new PersistentModel(new KNearestNeighbors(3, false, new Manhattan()), new Filesystem($path), new RBX());
+}
 
+$estimator->train(new Labeled(array_column($data, 1), array_column($data, 0)));
+$estimator->save();
 
 $predict = new Unlabeled([$target]);
 print_r([
     'Target: ' . implode('.', $target) . ' -->> ',
-    'Prediction: '. implode('', $classifier->predict($predict)),
+    'Prediction: '. implode('', $estimator->predict($predict)),
     'Probability: ',
-    $classifier->proba($predict)
+    $estimator->proba($predict)
 ]);
+
+

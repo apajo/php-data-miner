@@ -46,12 +46,12 @@ trait ModelHelperTrait
     {
         $samples = [];
 
-        foreach ($this->getEntries() as $entry) { dump($entry);
-            if ($entry->getProperty()->getName() !== $property->getPropertyPath()) {
+        foreach ($entry->getProperties() as $prop) {
+            if ($prop->getName() !== $property->getPropertyPath()) {
                 continue;
             }
 
-            $label = $entry->getLabel();
+            $label = $prop->getLabel();
 
             if (!isset($samples[$label->getValue()])) {
                 $samples[$label->getValue()] = [];
