@@ -7,6 +7,10 @@ use PhpDataMiner\Helpers\ResolveResult;
 use PhpDataMiner\Kernel\KernelInterface;
 use PhpDataMiner\Model\Describer;
 use PhpDataMiner\Model\Mapper;
+use PhpDataMiner\Model\Property\DateProperty;
+use PhpDataMiner\Model\Property\Feature\WordTreeFeature;
+use PhpDataMiner\Model\Property\FloatProperty;
+use PhpDataMiner\Model\Property\IntegerProperty;
 use PhpDataMiner\Model\Property\Property;
 use PhpDataMiner\Model\Property\PropertyInterface;
 use PhpDataMiner\Model\Property\Provider;
@@ -18,16 +22,12 @@ use PhpDataMiner\Storage\Model\EntryInterface;
 use PhpDataMiner\Storage\Model\ModelInterface;
 use PhpDataMiner\Storage\StorageInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use PhpDataMinerTests\Kernel\TestKernel;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Miner
 {
     use OptionsBuilderTrait;
-
-    /**
-     * @var KernelInterface
-     */
-    protected $kernel;
 
     /**
      * @var ModelInterface
@@ -44,12 +44,9 @@ class Miner
      */
     protected $storage;
 
-    function __construct( KernelInterface $kernel, $entity, array $options = [])
+    function __construct($entity, array $options = [])
     {
         $this->buildOptions($options);
-
-        /** @var KernelInterface kernel */
-        $this->kernel = $kernel;
 
         $this->mapper = new Mapper([
             'provider' => $this->options['properties']
@@ -70,7 +67,7 @@ class Miner
         /** @var PropertyInterface $property */
         foreach ($iterator as $property) {
             /** @var TokenInterface $token */
-            $token = $this->getKernel($property)->predict($this->model, $property, $doc);
+            $token = $property->getKernel()->predict($this->model, $property, $doc);
 
             if (!$token) {
                 continue;
@@ -114,8 +111,8 @@ class Miner
                 $this->model->addEntry($entry);
 
 
-                $this->getKernel($prop)->buildVectors($modelProp, $token, $prop);
-                $this->getKernel($prop)->train($entry, $prop);
+                $prop->getKernel()->buildVectors($modelProp, $token, $prop);
+                $prop->getKernel()->train($entry, $prop);
 
                 $result->add($prop, $token, $modelLabel->getValue());
             }
@@ -141,21 +138,18 @@ class Miner
         return $this->model;
     }
 
-    protected function getKernel (PropertyInterface $property): ?KernelInterface
-    {
-        if ($property->getKernel()) {
-            return $property->getKernel();
-        }
-
-        return $this->kernel;
-    }
-
     protected function configureOptions(OptionsResolver $resolver)
     {
+        $kernel = new TestKernel();
+        $feature = new WordTreeFeature();
+
         $resolver->setDefaults([
             'storage' => null,
             'properties' => new Provider(new Registry([
-                new Property(),
+                new FloatProperty($kernel, [$feature]),
+                new IntegerProperty($kernel, [$feature]),
+                new DateProperty($kernel, [$feature]),
+                new Property($kernel, [$feature]),
             ]))
         ]);
     }

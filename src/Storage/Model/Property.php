@@ -30,7 +30,7 @@ class Property implements PropertyInterface
     protected ?Label $label = null;
 
     /**
-     * @var Collection|FeatureVectorInterface[]
+     * @var Collection|FeatureInterface[]
      */
     protected Collection $features;
 
@@ -75,20 +75,20 @@ class Property implements PropertyInterface
     }
 
     /**
-     * @return FeatureVectorInterface[]|Collection
+     * @return FeatureInterface[]|Collection
      */
-    public function getFeatureVectors(): Collection
+    public function getFeatures(): Collection
     {
         return $this->features;
     }
 
-    public function addFeatureVector(FeatureVectorInterface $propertyFeature)
+    public function addFeature(FeatureInterface $propertyFeature)
     {
         $this->features->add($propertyFeature);
         $propertyFeature->setProperty($this);
     }
 
-    public function removeFeatureVector(FeatureVectorInterface $propertyFeature)
+    public function removeFeature(FeatureInterface $propertyFeature)
     {
         $this->features->removeElement($propertyFeature);
         $propertyFeature->setProperty(null);

@@ -4,11 +4,11 @@
 namespace PhpDataMiner\Storage\Model;
 
 /**
- * Description of FeatureVector
+ * Description of Feature
  *
  * @author Andres Pajo
  */
-class FeatureVector implements FeatureVectorInterface
+class Feature implements FeatureInterface
 {
     /**
      * @var int|null

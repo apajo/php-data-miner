@@ -2,6 +2,7 @@
 
 namespace PhpDataMiner\Normalizer\Transformer;
 
+use IntlDateFormatter;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -124,8 +125,8 @@ class DateFilter extends RegexFilter
         $months = array_map(function ($i) use ($locale)  {
             setlocale(LC_ALL, $locale ?: $this->options['locale']);
             return [
-                mb_strtolower(utf8_encode(strftime('%B', mktime(0, 0, 0, $i, 1)))),
-                mb_strtolower(utf8_encode(strftime('%h', mktime(0, 0, 0, $i, 1))))
+                mb_strtolower(utf8_encode($this->strftime(mktime(0, 0, 0, $i, 1), $locale, true))),
+                mb_strtolower(utf8_encode($this->strftime(mktime(0, 0, 0, $i, 1), $locale)))
             ];
         }, range(1, 12));
 
@@ -134,4 +135,11 @@ class DateFilter extends RegexFilter
         return $months;
     }
 
+    protected function strftime($datetime, string $locale = null, bool $fullName = false)
+    {
+        $locale = $locale?: $this->options['locale'];
+
+        $formatter = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::NONE);
+        return $formatter->format(time());
+    }
 }

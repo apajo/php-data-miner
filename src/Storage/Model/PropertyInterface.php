@@ -47,19 +47,19 @@ interface PropertyInterface
     public function setLabel(?LabelInterface $value): void;
 
     /**
-     * @return FeatureVector[]|Collection
+     * @return Feature[]|Collection
      */
-    public function getFeatureVectors(): Collection;
+    public function getFeatures(): Collection;
 
     /**
-     * @param FeatureVector $PropertyFeature
+     * @param Feature $PropertyFeature
      * @return mixed
      */
-    public function addFeatureVector(FeatureVector $PropertyFeature);
+    public function addFeature(Feature $PropertyFeature);
 
     /**
-     * @param FeatureVector $PropertyFeature
+     * @param Feature $PropertyFeature
      * @return mixed
      */
-    public function removeFeatureVector(FeatureVector $PropertyFeature);
+    public function removeFeature(Feature $PropertyFeature);
 }

@@ -9,6 +9,7 @@ use PhpDataMiner\Normalizer\Tokenizer\Token\Token;
 use PhpDataMiner\Normalizer\Tokenizer\Token\TokenInterface;
 use PhpDataMiner\Storage\Model\Entry;
 use PhpDataMiner\Storage\Model\EntryInterface;
+use PhpDataMiner\Storage\Model\Feature;
 use PhpDataMiner\Storage\Model\ModelInterface;
 use PhpDataMiner\Storage\Model\PropertyInterface as StoragePropertyInterface;
 use Doctrine\Common\Collections\Collection;
@@ -69,12 +70,12 @@ abstract class AbstractKernel implements KernelInterface
     public function buildVectors (StoragePropertyInterface $model, Token $token, PropertyInterface $property)
     {
         foreach ($property->getFeatures() as $key => $feature) {
-            $vector = $model->getFeatureVectors()->offsetExists($key) ?
-                $model->getFeatureVectors()->offsetGet($key) : null;
+            $vector = $model->getFeatures()->offsetExists($key) ?
+                $model->getFeatures()->offsetGet($key) : null;
 
             if (!$vector) {
-                $vector = new StorageFeature();
-                $model->addFeatureVector($vector);
+                $vector = new Feature();
+                $model->addFeature($vector);
                 $vector->setName($key);
             }
 

@@ -2,10 +2,11 @@
 
 namespace PhpDataMinerTests\Kernel;
 
-use DataMiner\Model\FeatureVector;
+use DataMiner\Model\Feature;
 use PhpDataMiner\Kernel\AbstractKernel;
 use PhpDataMiner\Kernel\KernelInterface;
 use PhpDataMiner\Storage\Model\EntryInterface;
+use PhpDataMiner\Storage\Model\FeatureInterface;
 use PhpDataMiner\Storage\Model\ModelInterface;
 use PhpDataMiner\Model\Property\PropertyInterface;
 use PhpDataMiner\Normalizer\Document\Document;
@@ -32,13 +33,14 @@ class TestKernel extends AbstractKernel implements KernelInterface
         $prop = $entry->getProperty($property->getPropertyPath());
         dd([
             $prop->getLabel()->getValue(),
-            $prop->getFeatureVectors()->map(function (FeatureVector $a) {
+            $prop->getFeatures()->map(function (FeatureInterface $a) {
                 return $a->getValue();
             })->toArray()
         ]);
 
         $samples = $entry->getModel()->resolveSamples($property, $entry);
 dd($samples);
+
         $dataset = new Labeled(
             array_map(function ($a) {
                 return array_map('intval', explode('.', $a));

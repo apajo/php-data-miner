@@ -4,7 +4,6 @@ namespace PhpDataMiner\Model\Property;
 
 use PhpDataMiner\Helpers\OptionsBuilderTrait;
 use PhpDataMiner\Kernel\KernelInterface;
-use PhpDataMiner\Model\Property\Feature\Feature;
 use PhpDataMiner\Model\Property\Feature\FeatureInterface;
 use PhpDataMiner\Model\Property\Transformer\Transformer;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,12 +19,12 @@ abstract class AbstractProperty implements PropertyInterface
     /**
      * @var string
      */
-    private string $name;
+    protected string $name;
 
     /**
      * @var string|null
      */
-    private ?string $propertyPath = null;
+    protected ?string $propertyPath = null;
 
     /**
      * @var PropertyAccessor|null
@@ -38,17 +37,26 @@ abstract class AbstractProperty implements PropertyInterface
     protected ?KernelInterface $kernel = null;
 
     /**
-     * @var Collection|Feature[]
+     * @var Collection|FeatureInterface[]
      */
-    private Collection $features;
+    protected Collection $features;
 
-    function __construct (array $options = [])
+    /**
+     *
+     * @param KernelInterface $kernel
+     * @param FeatureInterface[]|Collection $features
+     * @param array $options
+     */
+    function __construct (KernelInterface $kernel, array $features, array $options = [])
     {
         $this->buildOptions($options);
 
-        $this->features = new ArrayCollection();
+        $this->kernel = $kernel;
 
-        $this->kernel = $this->getOption('kernel');
+        $this->features = new ArrayCollection();
+        foreach ($features as $feature) {
+            $this->addFeature($feature);
+        }
     }
 
     public function getName(): ?string
@@ -133,7 +141,6 @@ abstract class AbstractProperty implements PropertyInterface
             'type' => null,
             'class' => null,
             'transformer' => new Transformer(),
-            'kernel' => null,
             'property_accessor' => PropertyAccess::createPropertyAccessor(),
         ]);
     }
@@ -146,13 +153,15 @@ abstract class AbstractProperty implements PropertyInterface
         return $this->features;
     }
 
-    public function addFeature(FeatureInterface $feature)
+    public function addFeature(FeatureInterface $feature): self
     {
         $this->features->add($feature);
+        return $this;
     }
 
     public function removeFeature(FeatureInterface $feature)
     {
         $this->features->removeElement($feature);
+        return $this;
     }
 }

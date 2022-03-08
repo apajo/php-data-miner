@@ -5,6 +5,7 @@ namespace PhpDataMinerTests;
 
 use PhpDataMiner\DataMiner;
 use PhpDataMiner\Model\Property\DateProperty;
+use PhpDataMiner\Model\Property\Feature\WordTreeFeature;
 use PhpDataMiner\Model\Property\FloatProperty;
 use PhpDataMiner\Model\Property\IntegerProperty;
 use PhpDataMiner\Model\Property\Property;
@@ -28,16 +29,17 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
 $entity = Ancestor::createModel();
 
 $kernel = new TestKernel();
+$feature = new WordTreeFeature();
+
 $provider = new Provider(new Registry([
-    new FloatProperty(),
-    new IntegerProperty(),
-    new DateProperty(),
-    new Property(),
+    new FloatProperty($kernel, [$feature]),
+    new IntegerProperty($kernel, [$feature]),
+    new DateProperty($kernel, [$feature]),
+    new Property($kernel, [$feature]),
 ]));
 
 
 $miner = DataMiner::create(
-    $kernel,
     $entity,
     [
         'storage' => new TestStorage(),
