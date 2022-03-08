@@ -143,15 +143,14 @@ class Miner
     {
         $kernel = new TestKernel();
         $feature = new WordTreeFeature();
-        $feature2 = new DefaultFeature();
 
         $resolver->setDefaults([
             'storage' => null,
             'properties' => new Provider(new Registry([
-                new FloatProperty($kernel, [$feature, $feature2]),
-                new IntegerProperty($kernel, [$feature, $feature2]),
-                new DateProperty($kernel, [$feature, $feature2]),
-                new Property($kernel, [$feature, $feature2]),
+                new FloatProperty($kernel, [$feature]),
+                new IntegerProperty($kernel, [$feature]),
+                new DateProperty($kernel, [$feature]),
+                new Property($kernel, [$feature]),
             ]))
         ]);
     }

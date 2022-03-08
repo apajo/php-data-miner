@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
-abstract class AbstractProperty implements PropertyInterface
+abstract class AbstractProperty implements PropertyInterface, FlattenFeatureVectors
 {
     use OptionsBuilderTrait;
 
@@ -143,6 +143,14 @@ abstract class AbstractProperty implements PropertyInterface
             'transformer' => new Transformer(),
             'property_accessor' => PropertyAccess::createPropertyAccessor(),
         ]);
+    }
+
+    /**
+     * @return FeatureInterface
+     */
+    public function getFeature($offset): ?FeatureInterface
+    {
+        return $this->features->offsetGet($offset);
     }
 
     /**

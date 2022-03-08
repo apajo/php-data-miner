@@ -9,7 +9,7 @@ class DefaultFeature extends AbstractFeature
 {
     public function vectorize(Feature &$vector, Token $token)
     {
-        $vector->setValue([rand(1, 5)]);
+        $vector->setValue($token->getPointer()->get());
     }
 
     public function getWeight(): float

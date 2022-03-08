@@ -7,7 +7,7 @@ namespace PhpDataMiner\Model\Property;
  *
  *
  */
-interface FlattenFeatures
+interface FlattenFeatureVectors
 {
 
 }

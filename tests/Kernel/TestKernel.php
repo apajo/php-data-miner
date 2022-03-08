@@ -2,18 +2,14 @@
 
 namespace PhpDataMinerTests\Kernel;
 
-use DataMiner\Model\Feature;
 use PhpDataMiner\Kernel\AbstractKernel;
 use PhpDataMiner\Kernel\KernelInterface;
-use PhpDataMiner\Storage\Model\EntryInterface;
-use PhpDataMiner\Storage\Model\FeatureInterface;
-use PhpDataMiner\Storage\Model\ModelInterface;
 use PhpDataMiner\Model\Property\PropertyInterface;
 use PhpDataMiner\Normalizer\Document\Document;
 use PhpDataMiner\Normalizer\Document\Pointer;
 use PhpDataMiner\Normalizer\Tokenizer\Token\TokenInterface;
+use PhpDataMiner\Storage\Model\ModelInterface;
 use Rubix\ML\Classifiers\KNearestNeighbors;
-use Rubix\ML\Datasets\Labeled;
 use Rubix\ML\Kernels\Distance\Manhattan;
 
 /**
@@ -25,37 +21,13 @@ class TestKernel extends AbstractKernel implements KernelInterface
 {
     function __construct ()
     {
+        parent::__construct();
         $this->kernel = new KNearestNeighbors(3, false, new Manhattan());
-    }
-
-    public function train (EntryInterface $entry, PropertyInterface $property)
-    {
-        $prop = $entry->getProperty($property->getPropertyPath());
-
-        dump([
-            $prop->getLabel()->getValue(),
-
-            $prop->getFeatures()->map(function (FeatureInterface $a) {
-                return $a->getValue();
-            })->toArray()
-        ]);
-
-        $samples = $entry->getModel()->resolveSamples($property, $entry);
-
-
-        $dataset = new Labeled(
-            array_map(function ($a) {
-                return array_map('intval', explode('.', $a));
-            }, array_column($samples, 'data'))
-            , array_column($samples, 'label')
-        );
-
-        // $this->kernel->train($dataset);
     }
 
     public function predict (ModelInterface $model, PropertyInterface $property, Document $doc): ?TokenInterface
     {
-        $labels = $this->groupByValues($model, $property);
+        $labels = $this->groupByVectors($model, $property);
 
         foreach ($labels as $index => $entries ) {
             $result = $doc->getTraverser()->getValue(
@@ -79,7 +51,7 @@ class TestKernel extends AbstractKernel implements KernelInterface
         return null;
     }
 
-    public function groupByValues (ModelInterface $model, PropertyInterface $property): array
+    public function groupByVectors (ModelInterface $model, PropertyInterface $property): array
     {
         $labels = [];
 
@@ -89,18 +61,20 @@ class TestKernel extends AbstractKernel implements KernelInterface
             if (!$prop) {
                 continue;
             }
-dump($prop->getLabel());
-            $value = $prop->getLabel()->getValue();
+
+            $vec = $this->dataset->getFeatureVector($property, $prop);
+
+            $value = implode('.', $vec);//$prop->getLabel()->getValue();
 
             if (!isset($labels[$value])){
-                $labels[$value] = [];
+                $labels[$value] = 0;
             }
 
-            $labels[$value][] = $entry->getId();
+            $labels[$value]++;// = $entry->getId();
         }
 
         uksort($labels, function (string $a, string $b) use ($labels) {
-            return count($labels[$b]) - count($labels[$a]);
+            return ($labels[$b]) - ($labels[$a]);
         });
 
         return $labels;

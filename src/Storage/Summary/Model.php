@@ -76,9 +76,5 @@ class Model
 
         }
 
-
-dump($objects);
-
-        dump($summary);
     }
 }

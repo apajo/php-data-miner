@@ -53,6 +53,7 @@ class Ancestor
 
     function __construct ()
     {
+        $this->id = rand(10000, 99999);
         $this->children = [];
     }
 
@@ -64,11 +65,11 @@ class Ancestor
     public static function createModel (): Ancestor
     {
         $entity = new Ancestor();
+
         $entity->age = rand(55, 60);
         $entity->number = 360.00;
         $entity->alias = 'EE137700771004808317';
         $entity->name = 'Eelika Puunurm';
-        $entity->id = rand(1000, 9999);
         $entity->date = (new \DateTime())->setTimestamp(rand(1641077089,1672440289));
 
         for ($i = 1; $i < 1; $i++) {

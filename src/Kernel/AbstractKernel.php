@@ -13,9 +13,11 @@ use PhpDataMiner\Storage\Model\Feature;
 use PhpDataMiner\Storage\Model\ModelInterface;
 use PhpDataMiner\Storage\Model\PropertyInterface as StoragePropertyInterface;
 use Doctrine\Common\Collections\Collection;
+use Rubix\ML\Classifiers\KNearestNeighbors;
 use Rubix\ML\Datasets\Labeled;
 use Rubix\ML\Datasets\Unlabeled;
 use Rubix\ML\Estimator;
+use Rubix\ML\Kernels\Distance\Manhattan;
 use Rubix\ML\Persisters\Persister;
 
 /**
@@ -26,9 +28,20 @@ use Rubix\ML\Persisters\Persister;
 abstract class AbstractKernel implements KernelInterface
 {
     /**
+     * @var DatasetHelper
+     */
+    protected $dataset;
+
+    /**
      * @var Estimator|Persister
      */
     protected $kernel;
+
+    function __construct ()
+    {
+        $this->dataset = new DatasetHelper();
+    }
+
 
     /**
      * @param ModelInterface $model
@@ -38,26 +51,19 @@ abstract class AbstractKernel implements KernelInterface
      */
     public function predict (ModelInterface $model, PropertyInterface $property, Document $doc): ?TokenInterface
     {
-        $storageProperty = $model->getProperty($property->getPropertyPath());
 
-        $dataset = new Unlabeled([
-            [0, 1, 2, 3, 4]
-        ]);
-
-        //$this->kernel->predict($dataset);
     }
 
     /**
-     * @param Entry[]|Collection $entries
+     * @param EntryInterface $entry
+     * @param PropertyInterface $property
      */
     public function train (EntryInterface $entry, PropertyInterface $property)
     {
-        $storageProperty = $entry->getProperty();
-        $samples = $entry->getModel()->resolveSamples($property);
+        $prop = $entry->getProperty($property->getPropertyPath());
+        $samples = $this->dataset->buildLabeledDataset($property, $prop);
 
-        $dataset = new Labeled(array_column($samples, 'data'), array_column($samples, 'label'));
-
-        //$this->kernel->train($dataset);
+        $this->kernel->train($samples);
     }
 
     /**
@@ -82,4 +88,5 @@ abstract class AbstractKernel implements KernelInterface
             $feature->vectorize($vector, $token);
         }
     }
+
 }

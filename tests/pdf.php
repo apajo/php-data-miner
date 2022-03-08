@@ -34,10 +34,10 @@ $feature = new WordTreeFeature();
 $feature2 = new DefaultFeature();
 
 $provider = new Provider(new Registry([
-    new FloatProperty($kernel, [$feature, $feature2]),
-    new IntegerProperty($kernel, [$feature, $feature2]),
-    new DateProperty($kernel, [$feature, $feature2]),
-    new Property($kernel, [$feature, $feature2]),
+    new FloatProperty($kernel, [$feature]),
+    new IntegerProperty($kernel, [$feature]),
+    new DateProperty($kernel, [$feature]),
+    new Property($kernel, [$feature]),
 ]));
 
 
@@ -52,7 +52,7 @@ $miner = DataMiner::create(
 $source = shell_exec('pdftotext -layout tests/kopra.pdf -');
 
 // perform some mutations in the content
-$content = str_replace('280740', $entity->id, $source);
+$content = str_replace('280740', $entity->getId(), $source);
 $content = str_replace('15 november 2021', $entity->date->format('d-m-Y'), $content);
 
 $rows = explode("\n", $content);
@@ -72,12 +72,9 @@ $doc = $miner->normalize($content, [
 ]);
 
 
-//$doc->_dump();
-
-$trained = $miner->train($entity, $doc);
-dump($trained);
+//$trained = $miner->train($entity, $doc);
+//dump($trained);
 
 $new = new Ancestor();
 $resolve = $miner->predict($new, $doc);
 dump($new);
-

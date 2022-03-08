@@ -74,6 +74,11 @@ interface PropertyInterface
     public function create(string $name, array $options = []): \PhpDataMiner\Model\Property\AbstractProperty;
 
     /**
+     * @return FeatureInterface
+     */
+    public function getFeature($offset);
+
+    /**
      * @return FeatureInterface[]|Collection
      */
     public function getFeatures();
