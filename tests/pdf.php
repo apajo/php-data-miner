@@ -5,6 +5,7 @@ namespace PhpDataMinerTests;
 
 use PhpDataMiner\DataMiner;
 use PhpDataMiner\Model\Property\DateProperty;
+use PhpDataMiner\Model\Property\Feature\DefaultFeature;
 use PhpDataMiner\Model\Property\Feature\WordTreeFeature;
 use PhpDataMiner\Model\Property\FloatProperty;
 use PhpDataMiner\Model\Property\IntegerProperty;
@@ -30,12 +31,13 @@ $entity = Ancestor::createModel();
 
 $kernel = new TestKernel();
 $feature = new WordTreeFeature();
+$feature2 = new DefaultFeature();
 
 $provider = new Provider(new Registry([
-    new FloatProperty($kernel, [$feature]),
-    new IntegerProperty($kernel, [$feature]),
-    new DateProperty($kernel, [$feature]),
-    new Property($kernel, [$feature]),
+    new FloatProperty($kernel, [$feature, $feature2]),
+    new IntegerProperty($kernel, [$feature, $feature2]),
+    new DateProperty($kernel, [$feature, $feature2]),
+    new Property($kernel, [$feature, $feature2]),
 ]));
 
 

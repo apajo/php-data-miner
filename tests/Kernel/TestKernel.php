@@ -31,15 +31,17 @@ class TestKernel extends AbstractKernel implements KernelInterface
     public function train (EntryInterface $entry, PropertyInterface $property)
     {
         $prop = $entry->getProperty($property->getPropertyPath());
-        dd([
+
+        dump([
             $prop->getLabel()->getValue(),
+
             $prop->getFeatures()->map(function (FeatureInterface $a) {
                 return $a->getValue();
             })->toArray()
         ]);
 
         $samples = $entry->getModel()->resolveSamples($property, $entry);
-dd($samples);
+
 
         $dataset = new Labeled(
             array_map(function ($a) {

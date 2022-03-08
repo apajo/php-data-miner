@@ -7,6 +7,7 @@ namespace PhpDataMiner\Storage\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
+
 class Property implements PropertyInterface
 {
     /**
@@ -94,3 +95,6 @@ class Property implements PropertyInterface
         $propertyFeature->setProperty(null);
     }
 }
+
+class StorageProperty extends Property
+{}
