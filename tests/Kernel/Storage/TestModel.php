@@ -5,6 +5,7 @@ namespace PhpDataMinerTests\Kernel\Storage;
 use PhpDataMiner\Storage\Model\Discriminator\Discriminator;
 use PhpDataMiner\Storage\Model\Discriminator\DiscriminatorInterface;
 use PhpDataMiner\Storage\Model\Model as Base;
+use DataMinerTests\Model\Ancestor;
 
 /**
  * Description of Miner
@@ -14,13 +15,13 @@ use PhpDataMiner\Storage\Model\Model as Base;
 class TestModel extends Base
 {
     /**
-     * @param $value
+     * @param Ancestor $value
      * @return DiscriminatorInterface
      */
     public static function createEntryDiscriminator($value): DiscriminatorInterface
     {
         return new Discriminator([
-            $value->id,
+            $value->number,
         ]);
     }
 }

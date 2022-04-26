@@ -4,6 +4,8 @@ namespace PhpDataMiner\Storage;
 
 use PhpDataMiner\Helpers\OptionsBuilderTrait;
 use PhpDataMiner\Model\Property\PropertyInterface;
+use PhpDataMiner\Normalizer\Document\Pointer;
+use PhpDataMiner\Normalizer\Tokenizer\Token\Token;
 use PhpDataMiner\Storage\Model\Discriminator\DiscriminatorInterface;
 use PhpDataMiner\Storage\Model\EntryInterface;
 use PhpDataMiner\Storage\Model\LabelInterface;
@@ -68,15 +70,18 @@ trait StorageTrait
         return $prop;
     }
 
-    public function getLabel(ModelInterface $model, PropertyInterface $property, string $value, bool $create = true): ?LabelInterface
+    public function getLabel(ModelInterface $model, PropertyInterface $property, Token $token, bool $create = true): ?LabelInterface
     {
-        $label = $model->getLabel($property, $value);
+        $label = $model->getLabel($property, $token);
 
         if (!$label && $create) {
             /** @var LabelInterface $new */
             $label = new $this->labelModel();
             $label->setProperty($property->getPropertyPath());
-            $label->setValue($value);
+
+            $pointer = new Pointer($token->getoption('index'));
+            $label->setValue((string)$pointer);
+            $label->setText($token->getText());
 
             $model->addLabel($label);
         }

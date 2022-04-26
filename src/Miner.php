@@ -7,6 +7,7 @@ use PhpDataMiner\Helpers\ResolveResult;
 use PhpDataMiner\Kernel\KernelInterface;
 use PhpDataMiner\Model\Describer;
 use PhpDataMiner\Model\Mapper;
+use PhpDataMiner\Model\Property\AbstractProperty;
 use PhpDataMiner\Model\Property\DateProperty;
 use PhpDataMiner\Model\Property\Feature\DefaultFeature;
 use PhpDataMiner\Model\Property\Feature\WordTreeFeature;
@@ -17,6 +18,7 @@ use PhpDataMiner\Model\Property\PropertyInterface;
 use PhpDataMiner\Model\Property\Provider;
 use PhpDataMiner\Model\Property\Registry;
 use PhpDataMiner\Normalizer\Document\Document;
+use PhpDataMiner\Normalizer\Document\Pointer;
 use PhpDataMiner\Normalizer\Normalizer;
 use PhpDataMiner\Normalizer\Tokenizer\Token\TokenInterface;
 use PhpDataMiner\Storage\Model\EntryInterface;
@@ -75,7 +77,9 @@ class Miner
             }
 
             $changes->offsetSet($property->getPropertyPath(), $token);
-            $result->add($property, $token, $token->getValue());
+            $result->add($property, $token, $token->getValue(), [
+                'vector' => (string)new Pointer($token->getOption('index'))
+            ]);
 
             $property->setValue($entity, $token);
         }
@@ -103,8 +107,12 @@ class Miner
                     $discriminator
                 );
 
+                $pointer = new Pointer($token->getoption('index'));
                 $modelProp = $this->storage->getProperty($entry, $prop->getPropertyPath());
-                $modelLabel = $this->storage->getLabel($this->model, $prop, $token->getText());
+                $modelLabel = $this->storage->getLabel($this->model, $prop, $token);
+                $modelLabel->setText($token->getText());
+
+                $modelLabel->setValue((string)$pointer);
 
                 $modelProp->setLabel($modelLabel);
 
@@ -128,7 +136,10 @@ class Miner
     {
         $document = new Document($content, $documentOptions);
 
-        $normalizer = new Normalizer($normalizerOptions);
+        $normalizer = new Normalizer(array_merge([
+            'filters' => $this->getOption('filters')
+        ], $normalizerOptions));
+
         $normalizer->normalize($document);
 
         return $document;
@@ -151,7 +162,14 @@ class Miner
                 new IntegerProperty($kernel, [$feature]),
                 new DateProperty($kernel, [$feature]),
                 new Property($kernel, [$feature]),
+            ])),
+            'filters' => new Provider(new Registry([
+                new FloatProperty($kernel, [$feature]),
+                new IntegerProperty($kernel, [$feature]),
+                new DateProperty($kernel, [$feature]),
+                new Property($kernel, [$feature]),
             ]))
+
         ]);
     }
 }

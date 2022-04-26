@@ -13,6 +13,10 @@ NC='\033[0m' # No Color
 help:           ## Show this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
+
+setup:
+	composer install
+
 tests:
 	php tests/$(arg).php
 

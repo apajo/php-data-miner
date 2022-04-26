@@ -1,3 +1,4 @@
+
 {
     "name": "apajo/php-data-miner",
     "type": "library",
@@ -36,7 +37,6 @@
         "sort-packages": true
     },
     "autoload": {
-        "files": [ "var/dump.php" ],
         "psr-4": {
             "PhpDataMiner\\": "src/"
         },

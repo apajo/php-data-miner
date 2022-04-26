@@ -4,6 +4,7 @@ namespace PhpDataMiner\Storage;
 
 
 use PhpDataMiner\Model\Property\PropertyInterface;
+use PhpDataMiner\Normalizer\Tokenizer\Token\Token;
 use PhpDataMiner\Storage\Model\Discriminator\DiscriminatorInterface;
 use PhpDataMiner\Storage\Model\EntryInterface;
 use PhpDataMiner\Storage\Model\LabelInterface;
@@ -46,7 +47,7 @@ interface StorageInterface
      * @param bool $create
      * @return LabelInterface|null
      */
-    public function getLabel(ModelInterface $model, PropertyInterface $property, string $label, bool $create = true): ?LabelInterface;
+    public function getLabel(ModelInterface $model, PropertyInterface $property, Token $token, bool $create = true): ?LabelInterface;
 
     /**
      * @param string $name

@@ -11,7 +11,7 @@ class Word extends AbstractTokenizer implements TokenizerInterface
 {
     function __construct (array $options = [])
     {
-        parent::__construct("/([\w'-]+\S)/u", $options);
+        parent::__construct("/([\w'-|\.]+|\S)/u", $options);
     }
 
     /**

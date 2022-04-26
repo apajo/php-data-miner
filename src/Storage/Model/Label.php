@@ -17,6 +17,11 @@ class Label implements LabelInterface
     /**
      * @var string|null
      */
+    private ?string $text = null;
+
+    /**
+     * @var string|null
+     */
     protected ?string $value = null;
 
     /**
@@ -47,6 +52,16 @@ class Label implements LabelInterface
     public function setValue(string $value = null)
     {
         $this->value = $value;
+    }
+
+    public function getText(): ?string
+    {
+        return $this->text;
+    }
+
+    public function setText(?string $text): void
+    {
+        $this->text = $text;
     }
 
     public function getProperty(): ?string

@@ -18,11 +18,12 @@ class ResolveResult
         $this->items = new ArrayCollection();
     }
 
-    public function add (PropertyInterface $feature, TokenInterface $token, $value)
+    public function add (PropertyInterface $feature, TokenInterface $token, $value, array $extra = [])
     {
         $this->items->add([
             $feature->getPropertyPath(),
-            $value
+            $value,
+            $extra
         ]);
     }
 }

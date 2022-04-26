@@ -24,15 +24,17 @@ trait ModelHelperTrait
         $result = new ArrayCollection();
 
         foreach ($this->getEntries() as $entry) {
-            if ($property && $entry->getProperty()->getName() !== $property->getPropertyPath()){
+            $prop = $entry->getProperty();
+
+            if (!$prop) {
                 continue;
             }
 
-            if ($result->contains($entry->getLabel())){
+            if ($result->contains($prop->getLabel())){
                 continue;
             }
 
-            $result->add($entry->getLabel());
+            $result->add($prop->getLabel());
         }
 
         return $result;
@@ -42,12 +44,18 @@ trait ModelHelperTrait
      * @param PropertyInterface|null $property
      * @return Collection
      */
-    public function resolveSamples (PropertyInterface $property = null, EntryInterface $entry = null): array
+    public function resolveSamples (PropertyInterface $property = null, EntryInterface $target = null): array
     {
         $samples = [];
 
-        foreach ($entry->getProperties() as $prop) {
-            if ($prop->getName() !== $property->getPropertyPath()) {
+        foreach ($this->getEntries() as $entry) {
+            if ($target && $target->getId() !== $entry->getId()) {
+                continue;
+            }
+
+            $prop = $entry->getProperty($property->getPropertyPath());
+
+            if (!$prop) {
                 continue;
             }
 

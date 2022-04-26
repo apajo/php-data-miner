@@ -4,6 +4,9 @@ namespace PhpDataMiner\Model\Property;
 
 use PhpDataMiner\Model\Property\Transformer\CallbackTransformer;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\VarDumper\Caster\Caster;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Symfony\Component\VarDumper\Dumper\CliDumper;
 
 class FloatProperty extends AbstractProperty
 {

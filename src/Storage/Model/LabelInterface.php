@@ -32,6 +32,10 @@ interface LabelInterface
      */
     public function setValue(string $value = null);
 
+    public function getText(): ?string;
+
+    public function setText(?string $text): void;
+
     /**
      * @return string|null
      */

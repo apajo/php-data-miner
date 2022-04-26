@@ -5,7 +5,6 @@ namespace PhpDataMinerTests;
 
 use PhpDataMiner\DataMiner;
 use PhpDataMiner\Model\Property\DateProperty;
-use PhpDataMiner\Model\Property\Feature\DefaultFeature;
 use PhpDataMiner\Model\Property\Feature\WordTreeFeature;
 use PhpDataMiner\Model\Property\FloatProperty;
 use PhpDataMiner\Model\Property\IntegerProperty;
@@ -15,66 +14,77 @@ use PhpDataMiner\Model\Property\Registry;
 use PhpDataMiner\Normalizer\Tokenizer\WordTree;
 use PhpDataMiner\Normalizer\Transformer\ColonFilter;
 use PhpDataMiner\Normalizer\Transformer\DateFilter;
+use PhpDataMiner\Normalizer\Transformer\NumberFilter;
 use PhpDataMiner\Normalizer\Transformer\PriceFilter;
 use PhpDataMiner\Normalizer\Transformer\Section;
+use PhpDataMinerTests\Helpers\Load;
 use PhpDataMinerTests\Kernel\Storage\TestStorage;
 use PhpDataMinerTests\Kernel\TestKernel;
-use PhpDataMinerTests\Model\Ancestor;
 
-require __DIR__.'/../vendor/autoload.php';
+use PhpDataMinerTests\Model\Invoice;
 
-set_error_handler(function($errno, $errstr, $errfile, $errline) {
+require __DIR__ . '/../vendor/autoload.php';
+
+set_error_handler(function ($errno, $errstr, $errfile, $errline) {
     throw new \ErrorException($errstr, $errno, 1, $errfile, $errline);
 });
 
-$entity = Ancestor::createModel();
 
 $kernel = new TestKernel();
 $feature = new WordTreeFeature();
-$feature2 = new DefaultFeature();
 
-$provider = new Provider(new Registry([
+$properties = new Provider(new Registry([
     new FloatProperty($kernel, [$feature]),
     new IntegerProperty($kernel, [$feature]),
     new DateProperty($kernel, [$feature]),
     new Property($kernel, [$feature]),
 ]));
-
+$filters = [
+    DateFilter::class,
+    PriceFilter::class,
+    NumberFilter::class,
+    ColonFilter::class,
+    Section::class,
+    //NltkToken::class,
+    WordTree::class,
+];
 
 $miner = DataMiner::create(
-    $entity,
+    new Invoice(),
     [
         'storage' => new TestStorage(),
-        'properties' => $provider
+        'properties' => $properties,
+        'filters' => $filters,
     ]
 );
 
-$source = shell_exec('pdftotext -layout tests/kopra.pdf -');
+$path = __DIR__ . '/training';
+$file = $path . '/files.csv';
+$files = $path . '/files';
+$index = 0;
 
-// perform some mutations in the content
-$content = str_replace('280740', $entity->getId(), $source);
-$content = str_replace('15 november 2021', $entity->date->format('d-m-Y'), $content);
+$loaded = new Load($file, $files, 50);
+list($trains, $predicts) = $loaded->sliceList(2);
 
-$rows = explode("\n", $content);
-unset($rows[rand(0, count($rows) - 1)]);
-$content = implode("\n", $rows);
+foreach ($trains as $index => $train) {
+    $filePath = $files . '/' . $train['file'];
+    $content = shell_exec('pdftotext -layout ' . $filePath . ' -');
+    $entity = Invoice::createModel($train);
 
+    $doc = $miner->normalize($content);
 
-$doc = $miner->normalize($content, [
-    'filters' => [
-        DateFilter::class,
-        PriceFilter::class,
-        ColonFilter::class,
-        Section::class,
-        //NltkToken::class,
-        WordTree::class,
-    ]
-]);
+    $trainerd = $miner->train($entity, $doc);
+    // dump([$index, $entity]);
+}
 
+dump(['////////////////////////////////////////////////', '////////////////// PREDICTING //////////////////']);
+foreach ($predicts as $index => $predict) {
+    $entity = Invoice::createModel([]);
 
-//$trained = $miner->train($entity, $doc);
-//dump($trained);
+    $filePath = $files . '/' . $predict['file'];
+    $content = shell_exec('pdftotext -layout ' . $filePath . ' -');
+    $doc = $miner->normalize($content);
 
-$new = new Ancestor();
-$resolve = $miner->predict($new, $doc);
-dump($new);
+    $predicted = $miner->predict($entity, $doc);
+    dump([$index, $predict, $entity]);
+}

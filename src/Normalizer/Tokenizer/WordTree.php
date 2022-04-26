@@ -65,33 +65,7 @@ class WordTree extends Word
 
             $parent->setToken($i, $cluster);
         }
-
-//        foreach ($parent->getTokens() as $i => $cluster) {
-//            $this->_tokenize( array_slice($tokenizers, 1), $cluster);
-//        }
     }
-
-//    protected function processPage (Document $doc, string &$content, array &$meta)
-//    {
-//        $content = preg_split(self::SEPARATORS['row'], $content);
-//
-//        foreach ($content as $ri => $_row) {
-//            $row = $doc->getContent()->addChild(new Row($ri, $_row));
-//
-//            $columns = preg_spilt(self::SEPARATORS['column'], $_row);
-//
-//            foreach ($columns as $ci => $_column) {
-//                preg_match_all(self::SEPARATORS['word'], $_column, $matches, PREG_SET_ORDER, 0);
-//                $matches = array_column($matches, 0);
-//
-//                $col = $row->addChild(new Column($ci, $_column));
-//                foreach ($matches as $i => $_word) {
-//                    $col->addChild(new Word($i, null, $_word));
-//                }
-//
-//            }
-//        }
-//    }
 
     protected function clusterize (string $tokenizer, string $source, array $options = []): Cluster
     {
