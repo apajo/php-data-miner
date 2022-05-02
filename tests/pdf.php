@@ -64,7 +64,7 @@ $files = $path . '/files';
 $index = 0;
 
 $loaded = new Load($file, $files, 50);
-list($trains, $predicts) = $loaded->sliceList(2);
+list($trains, $predicts) = $loaded->sliceList(4);
 
 foreach ($trains as $index => $train) {
     $filePath = $files . '/' . $train['file'];
@@ -74,7 +74,7 @@ foreach ($trains as $index => $train) {
     $doc = $miner->normalize($content);
 
     $trainerd = $miner->train($entity, $doc);
-    // dump([$index, $entity]);
+    dump([$index, $entity->number]);
 }
 
 dump(['////////////////////////////////////////////////', '////////////////// PREDICTING //////////////////']);
