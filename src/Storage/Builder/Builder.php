@@ -17,12 +17,12 @@ class Builder
      */
     protected $storage;
 
-    function __construct (StorageInterface $storage)
+    function __construct(StorageInterface $storage)
     {
         $this->storage = $storage;
     }
 
-    function rebuild ($entity, array $objectVector = null)
+    function rebuild($entity, array $objectVector = null)
     {
 
     }

@@ -53,7 +53,8 @@ trait StorageTrait
 
     public function getProperty(EntryInterface $entry, string $property, bool $create = true): ?StorageProperty
     {
-        $prop = $entry->getProperty($property);
+        $modelProperty = $entry->getModel()->getProperty($property);
+        $prop = $entry->getProperty($modelProperty->getName());
 
         if ($prop) {
             return $prop;
@@ -65,6 +66,7 @@ trait StorageTrait
 
         $prop = new $this->propertyModel();
         $prop->setName($property);
+        $prop->setModelProperty($modelProperty);
         $entry->addProperty($prop);
 
         return $prop;
@@ -89,7 +91,7 @@ trait StorageTrait
         return $label;
     }
 
-    public function filterEntries (ModelInterface $model, array $filter = null)
+    public function filterEntries(ModelInterface $model, array $filter = null)
     {
         $model->filterEntries(function (EntryInterface $a) use ($filter) {
             $regex = '/' . implode('\.', array_map(function ($a) {
@@ -103,7 +105,7 @@ trait StorageTrait
         });
     }
 
-    protected function buildOptions (array $options = [])
+    protected function buildOptions(array $options = [])
     {
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);

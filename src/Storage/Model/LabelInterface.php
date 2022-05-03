@@ -36,13 +36,12 @@ interface LabelInterface
 
     public function setText(?string $text): void;
 
-    /**
-     * @return string|null
-     */
-    public function getProperty(): ?string;
 
-    /**
-     * @param string|null $property
-     */
-    public function setProperty(?string $property): void;
+    public function getModel(): ?ModelInterface;
+
+    public function setModel(?ModelInterface $model);
+
+    public function getEntry(): ?EntryInterface;
+
+    public function setEntry(?EntryInterface $entry): void;
 }

@@ -3,10 +3,10 @@
 namespace PhpDataMiner\Storage\Model;
 
 
-use PhpDataMiner\Storage\Model\Discriminator\Discriminator;
-use PhpDataMiner\Storage\Model\Discriminator\DiscriminatorInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use PhpDataMiner\Storage\Model\Discriminator\Discriminator;
+use PhpDataMiner\Storage\Model\Discriminator\DiscriminatorInterface;
 
 /**
  * Description of Entry
@@ -74,7 +74,7 @@ class Entry implements EntryInterface
     /**
      * @return PropertyInterface
      */
-    public function getProperty(string $property): ?PropertyInterface
+    public function getProperty(string $property, bool $create = false): ?PropertyInterface
     {
         foreach ($this->getProperties() as $prop) {
             if ($prop->getName() !== $property) {
@@ -84,7 +84,18 @@ class Entry implements EntryInterface
             return $prop;
         }
 
-        return null;
+        if (!$create) {
+            return null;
+        }
+
+        $modelProp = $this->getModel()->getProperty($property, true);
+        $modelProp->setName($property);
+
+        $new = self::createProperty();
+        $new->setModelProperty($modelProp);
+        $this->addProperty($new);
+
+        return $new;
     }
 
     /**
@@ -94,16 +105,21 @@ class Entry implements EntryInterface
     {
         return $this->properties;
     }
-    
+
     public function addProperty(PropertyInterface $property)
     {
         $this->properties->add($property);
         $property->setEntry($this);
     }
-    
+
     public function removeProperty(PropertyInterface $property)
     {
         $this->properties->removeElement($property);
         $property->setEntry(null);
+    }
+
+    public static function createProperty(): PropertyInterface
+    {
+        return new Property();
     }
 }

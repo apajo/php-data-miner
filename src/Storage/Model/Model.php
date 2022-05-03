@@ -2,11 +2,11 @@
 
 namespace PhpDataMiner\Storage\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use PhpDataMiner\Model\Property\PropertyInterface;
 use PhpDataMiner\Storage\Model\Discriminator\Discriminator;
 use PhpDataMiner\Storage\Model\Discriminator\DiscriminatorInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 
 /**
  * Description of Model
@@ -56,10 +56,16 @@ class Model implements ModelInterface
      */
     protected ?Collection $entries;
 
+    /**
+     * @var Collection|ModelProperty[]
+     */
+    private Collection $propertys;
+
     function __construct()
     {
         $this->labels = new ArrayCollection();
         $this->entries = new ArrayCollection();
+        $this->propertys = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,7 +83,7 @@ class Model implements ModelInterface
         $this->name = $name;
     }
 
-    public function getEntry(DiscriminatorInterface $discriminator): ?EntryInterface
+    public function getEntry(DiscriminatorInterface $discriminator, bool $create = false): ?EntryInterface
     {
         foreach ($this->getEntries() as $entry) {
             if (!$discriminator->matches($entry->getDiscriminator())) {
@@ -87,7 +93,15 @@ class Model implements ModelInterface
             return $entry;
         }
 
-        return null;
+        if (!$create) {
+            return null;
+        }
+
+        $entry = self::createEntry();
+        $entry->setDiscriminator($discriminator);
+        $this->addEntry($entry);
+
+        return $entry;
     }
 
     /**
@@ -120,18 +134,27 @@ class Model implements ModelInterface
     /**
      * @return LabelInterface|null
      */
-    public function getLabel(PropertyInterface $property, string $value): ?LabelInterface
+    public function getLabel(PropertyInterface $property, string $value, bool $create = false): ?LabelInterface
     {
         foreach ($this->getLabels() as $label) {
             if ($label->getProperty() !== $property->getPropertyPath()
-                    || $label->getValue() !== $value) {
+                || $label->getValue() !== $value) {
                 continue;
             }
 
             return $label;
         }
 
-        return null;
+        if (!$create) {
+            return null;
+        }
+
+        $label = self::createLabel();
+        $label->setValue($value);
+        $label->setProperty($property->getPropertyPath());
+        $this->addLabel($label);
+
+        return $label;
     }
 
     /**
@@ -153,6 +176,49 @@ class Model implements ModelInterface
         $this->labels->removeElement($label);
     }
 
+    /**
+     * @return ModelProperty
+     */
+    public function getProperty(string $name, bool $create = false): ?ModelProperty
+    {
+        foreach ($this->propertys as $property) {
+            if ($property->getName() !== $name) {
+                continue;
+            }
+
+            return $property;
+        }
+
+        if (!$create) {
+            return null;
+        }
+
+        $property = self::createProperty();
+        $property->setName($name);
+        $this->addProperty($property);
+
+        return $property;
+    }
+
+    /**
+     * @return ModelProperty[]|Collection
+     */
+    public function getPropertys(): Collection
+    {
+        return $this->propertys;
+    }
+
+    public function addProperty(ModelProperty $property): void
+    {
+        $this->propertys->add($property);
+        $property->setModel($this);
+    }
+
+    public function removeProperty(ModelProperty $property): void
+    {
+        $this->propertys->removeElement($property);
+    }
+
     public function getModel(): string
     {
         return $this->model;
@@ -161,5 +227,20 @@ class Model implements ModelInterface
     public function setModel(string $model): void
     {
         $this->model = $model;
+    }
+
+    public static function createProperty(): ModelPropertyInterface
+    {
+        return new ModelProperty();
+    }
+
+    public static function createEntry(): EntryInterface
+    {
+        return new Entry();
+    }
+
+    public static function createLabel(): LabelInterface
+    {
+        return new Label();
     }
 }

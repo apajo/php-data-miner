@@ -3,8 +3,8 @@
 namespace PhpDataMiner\Storage\Model;
 
 
-use PhpDataMiner\Storage\Model\Discriminator\DiscriminatorInterface;
 use Doctrine\Common\Collections\Collection;
+use PhpDataMiner\Storage\Model\Discriminator\DiscriminatorInterface;
 
 /**
  * Description of Entry
@@ -52,7 +52,7 @@ interface EntryInterface
     /**
      * @return PropertyInterface
      */
-    public function getProperty(string $property): ?PropertyInterface;
+    public function getProperty(string $property, bool $create = false): ?PropertyInterface;
 
     /**
      * @param PropertyInterface $property
@@ -65,4 +65,6 @@ interface EntryInterface
      * @return bool
      */
     public function removeProperty(PropertyInterface $property);
+
+    public static function createProperty(): PropertyInterface;
 }

@@ -12,7 +12,7 @@ class Discriminator implements DiscriminatorInterface
     /**
      * @param array|string $discriminator
      */
-    function __construct ($discriminator)
+    function __construct($discriminator)
     {
         if (is_string($discriminator)) {
             $discriminator = explode('.', $discriminator);
@@ -21,22 +21,22 @@ class Discriminator implements DiscriminatorInterface
         $this->discriminator = $discriminator;
     }
 
-    public function getString (): ?string
+    public function getString(): ?string
     {
-        if (!$this->discriminator){
+        if (!$this->discriminator) {
             return null;
         }
 
         return implode('.', $this->getArray());
     }
 
-    public function getArray (): ?array
+    public function getArray(): ?array
     {
-        if (!$this->discriminator){
+        if (!$this->discriminator) {
             return null;
         }
 
-        return array_map(function ( $a) {
+        return array_map(function ($a) {
             if (!is_numeric($a)) {
                 return '%';
             }
@@ -46,7 +46,7 @@ class Discriminator implements DiscriminatorInterface
         }, $this->discriminator);
     }
 
-    public function matches (DiscriminatorInterface $discriminator): bool
+    public function matches(DiscriminatorInterface $discriminator): bool
     {
         $a = $discriminator->getArray();
         $b = $this->getArray();

@@ -8,23 +8,18 @@ use PhpDataMiner\Helpers\OptionsBuilderTrait;
 use PhpDataMiner\Helpers\ResolveResult;
 use PhpDataMiner\Model\Describer;
 use PhpDataMiner\Model\Mapper;
-use PhpDataMiner\Model\Property\DateProperty;
-use PhpDataMiner\Model\Property\Feature\WordTreeFeature;
-use PhpDataMiner\Model\Property\FloatProperty;
-use PhpDataMiner\Model\Property\IntegerProperty;
 use PhpDataMiner\Model\Property\Property;
 use PhpDataMiner\Model\Property\PropertyInterface;
 use PhpDataMiner\Model\Property\Provider;
-use PhpDataMiner\Model\Property\Registry;
 use PhpDataMiner\Normalizer\Document\Document;
 use PhpDataMiner\Normalizer\Document\Pointer;
 use PhpDataMiner\Normalizer\Normalizer;
 use PhpDataMiner\Normalizer\Tokenizer\Token\TokenInterface;
 use PhpDataMiner\Normalizer\Transformer\FilterInterface;
+use PhpDataMiner\Storage\Model\Entry;
 use PhpDataMiner\Storage\Model\EntryInterface;
 use PhpDataMiner\Storage\Model\ModelInterface;
 use PhpDataMiner\Storage\StorageInterface;
-use PhpDataMinerTests\Kernel\TestKernel;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Miner
@@ -57,19 +52,18 @@ class Miner
     private Collection $filters;
 
 
-    
-    function __construct($entity, Provider $provider, array $filters = [], array $options = [])
+    function __construct($entity, Provider $provider, StorageInterface $storage, array $filters = [], array $options = [])
     {
         $this->buildOptions($options);
 
         $this->mapper = new Mapper([
-            'provider' => $this->options['properties']
+            'provider' => $provider
         ]);
 
         $this->provider = $provider;
         $this->filters = new ArrayCollection($filters);
 
-        $this->storage =  $this->getOption('storage');
+        $this->storage =  $storage;
         $this->model = $this->storage->load($entity);
     }
 
@@ -101,13 +95,24 @@ class Miner
         return $result;
     }
 
-    public function train (&$entity, Document $doc)
+    public function train (&$entity, Document $doc): Entry
     {
         /** @var Describer $description */
         $description = $this->mapper->describe($entity);
 
         $discriminator = $this->model::createEntryDiscriminator($entity);
-        $result = new ResolveResult($discriminator->getString());
+
+        /** @var EntryInterface $entry */
+        $entry = $this->model->getEntry(
+            $discriminator,
+            false
+        );
+
+        if (!$entry) {
+            $entry = $this->model::createEntry();
+            $entry->setDiscriminator($discriminator);
+            $entry->setModel($this->model);
+        }
 
         /** @var PropertyInterface $prop */
         foreach ($description->iterator as $prop) {
@@ -115,35 +120,40 @@ class Miner
             $value = $prop->getValue($entity);
 
             if ($value && $token) {
-                /** @var EntryInterface $entry */
-                $entry = $this->storage->getEntry(
-                    $this->model,
-                    $discriminator
-                );
+                $property = $entry->getProperty($prop->getName(), true);
 
-                $pointer = new Pointer($token->getoption('index'));
-                $modelProp = $this->storage->getProperty($entry, $prop->getPropertyPath());
-                $modelLabel = $this->storage->getLabel($this->model, $prop, $token);
-                $modelLabel->setText($token->getText());
+                $pointer = new Pointer($token->getOption('index'));
+                $label = $property->getLabel(true);
+                $property->setLabel($label);
 
-                $modelLabel->setValue((string)$pointer);
+                $label->setValue($pointer);
+                $label->setText($value);
 
-                $modelProp->setLabel($modelLabel);
-
-                $entry->addProperty($modelProp);
-                $this->model->addEntry($entry);
-
-
-                $prop->getKernel()->buildVectors($modelProp, $token, $prop);
+                $prop->getKernel()->buildVectors($property, $token, $prop);
                 $prop->getKernel()->train($entry, $prop);
 
-                $result->add($prop, $token, $modelLabel->getValue());
+//                $pointer = new Pointer($token->getoption('index'));
+//                $modelProp = $this->storage->getProperty($entry, $prop->getPropertyPath());
+//                $modelLabel = $this->storage->getLabel($this->model, $prop, $token);
+//                $modelLabel->setText($token->getText());
+//
+//                $modelLabel->setValue((string)$pointer);
+//
+//                $modelProp->setLabel($modelLabel);
+//
+//                $entry->addProperty($modelProp);
+//                $this->model->addEntry($entry);
+//
+//
+//                $prop->getKernel()->buildVectors($modelProp, $token, $prop);
+//                $prop->getKernel()->train($entry, $prop);
             }
         }
 
+        $this->model->addEntry($entry);
         $this->storage->save($this->model);
 
-        return $result;
+        return $entry;
     }
 
     public function normalize (string $content, array $normalizerOptions = [], array $documentOptions = []): ?Document
@@ -166,24 +176,8 @@ class Miner
 
     protected function configureOptions(OptionsResolver $resolver)
     {
-        $kernel = new TestKernel();
-        $feature = new WordTreeFeature();
-
         $resolver->setDefaults([
             'storage' => null,
-            'properties' => new Provider(new Registry([
-                new FloatProperty($kernel, [$feature]),
-                new IntegerProperty($kernel, [$feature]),
-                new DateProperty($kernel, [$feature]),
-                new Property($kernel, [$feature]),
-            ])),
-            'filters' => new Provider(new Registry([
-                new FloatProperty($kernel, [$feature]),
-                new IntegerProperty($kernel, [$feature]),
-                new DateProperty($kernel, [$feature]),
-                new Property($kernel, [$feature]),
-            ]))
-
         ]);
     }
 

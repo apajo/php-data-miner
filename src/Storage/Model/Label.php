@@ -25,14 +25,14 @@ class Label implements LabelInterface
     protected ?string $value = null;
 
     /**
-     * @var string|null
-     */
-    protected ?string $property = null;
-
-    /**
      * @var ModelInterface|null
      */
     protected ?ModelInterface $model = null;
+
+    /**
+     * @var EntryInterface|null
+     */
+    protected ?EntryInterface $entry = null;
 
     public function getId(): ?int
     {
@@ -64,23 +64,23 @@ class Label implements LabelInterface
         $this->text = $text;
     }
 
-    public function getProperty(): ?string
-    {
-        return $this->property;
-    }
-
-    public function setProperty(?string $property): void
-    {
-        $this->property = $property;
-    }
-
     public function getModel(): ?ModelInterface
     {
         return $this->model;
     }
-    
+
     public function setModel(?ModelInterface $model)
     {
         $this->model = $model;
+    }
+
+    public function getEntry(): ?EntryInterface
+    {
+        return $this->entry;
+    }
+
+    public function setEntry(?EntryInterface $entry): void
+    {
+        $this->entry = $entry;
     }
 }

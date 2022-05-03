@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpDataMiner\Storage\Summary;
 
 /**

@@ -3,9 +3,9 @@
 namespace PhpDataMiner\Storage\Model;
 
 
+use Doctrine\Common\Collections\Collection;
 use PhpDataMiner\Model\Property\PropertyInterface;
 use PhpDataMiner\Storage\Model\Discriminator\DiscriminatorInterface;
-use Doctrine\Common\Collections\Collection;
 
 /**
  * Description of Model
@@ -38,7 +38,7 @@ interface ModelInterface
      * @param DiscriminatorInterface $discriminator
      * @return EntryInterface|null
      */
-    public function getEntry(DiscriminatorInterface $discriminator): ?EntryInterface;
+    public function getEntry(DiscriminatorInterface $discriminator, bool $create = false): ?EntryInterface;
 
     /**
      * @param EntryInterface $entry
@@ -55,7 +55,7 @@ interface ModelInterface
     /**
      * @return LabelInterface|null
      */
-    public function getLabel(PropertyInterface $property, string $value): ?LabelInterface;
+    public function getLabel(PropertyInterface $property, string $value, bool $create = false): ?LabelInterface;
 
     /**
      * @return LabelInterface[]|Collection
@@ -84,6 +84,28 @@ interface ModelInterface
      */
     public function setModel(string $model): void;
 
-    public function resolveSamples (PropertyInterface $property = null, EntryInterface $entry): array;
-    public function resolveLabels (PropertyInterface $property = null): Collection;
+
+    /**
+     * @return ModelProperty
+     */
+    public function getProperty(string $name, bool $create = false): ?ModelProperty;
+
+    /**
+     * @return ModelProperty[]|Collection
+     */
+    public function getPropertys(): Collection;
+
+    public function addProperty(ModelProperty $property): void;
+
+    public function removeProperty(ModelProperty $property): void;
+
+    public function resolveSamples(PropertyInterface $property = null, EntryInterface $entry): array;
+
+    public function resolveLabels(PropertyInterface $property = null): Collection;
+
+    public static function createProperty(): ModelPropertyInterface;
+
+    public static function createEntry(): EntryInterface;
+
+    public static function createLabel(): LabelInterface;
 }

@@ -25,12 +25,12 @@ class Summary
         $this->title = $title;
     }
 
-    public function setColumns (array $columns)
+    public function setColumns(array $columns)
     {
         $this->cols[] = $columns;
     }
 
-    public function addRow (string $name, array $columns)
+    public function addRow(string $name, array $columns)
     {
         $this->rows[] = [
             $name,

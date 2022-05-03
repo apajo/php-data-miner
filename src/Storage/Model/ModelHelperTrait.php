@@ -3,9 +3,9 @@
 namespace PhpDataMiner\Storage\Model;
 
 
-use PhpDataMiner\Model\Property\PropertyInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use PhpDataMiner\Model\Property\PropertyInterface;
 
 
 /**
@@ -19,7 +19,7 @@ trait ModelHelperTrait
      * @param PropertyInterface|null $property
      * @return LabelInterface[]|Collection
      */
-    public function resolveLabels (PropertyInterface $property = null): Collection
+    public function resolveLabels(PropertyInterface $property = null): Collection
     {
         $result = new ArrayCollection();
 
@@ -30,7 +30,7 @@ trait ModelHelperTrait
                 continue;
             }
 
-            if ($result->contains($prop->getLabel())){
+            if ($result->contains($prop->getLabel())) {
                 continue;
             }
 
@@ -44,7 +44,7 @@ trait ModelHelperTrait
      * @param PropertyInterface|null $property
      * @return Collection
      */
-    public function resolveSamples (PropertyInterface $property = null, EntryInterface $target = null): array
+    public function resolveSamples(PropertyInterface $property = null, EntryInterface $target = null): array
     {
         $samples = [];
 

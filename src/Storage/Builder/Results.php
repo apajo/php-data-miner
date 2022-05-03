@@ -12,7 +12,7 @@ class Results
 {
     protected $types = [];
 
-    function __construct (array $types = [])
+    function __construct(array $types = [])
     {
         $this->types = array_fill_keys(
             $types,
@@ -20,17 +20,17 @@ class Results
         );
     }
 
-    function increase (string $type)
+    function increase(string $type)
     {
         $this->types[$type] = isset($this->types[$type]) ? $this->types[$type] : $this->types[$type] = 0;
 
         $this->types[$type] = $this->types[$type] + 1;
     }
 
-    function serialize ()
+    function serialize()
     {
         return implode("\n", array_map(function ($count, $type) {
-            return $type . ': ' .  $count;
+            return $type . ': ' . $count;
         }, $this->types, array_keys($this->types)));
     }
 }

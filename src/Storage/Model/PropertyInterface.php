@@ -16,14 +16,13 @@ interface PropertyInterface
     public function getId(): ?int;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName(): string;
+    public function getName(): ?string;
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void;
+    public function getModelProperty(): ?ModelProperty;
+
+    public function setModelProperty(?ModelProperty $modelProperty): void;
 
     /**
      * @return EntryInterface|null
@@ -39,7 +38,7 @@ interface PropertyInterface
     /**
      * @return LabelInterface|null
      */
-    public function getLabel(): ?LabelInterface;
+    public function getLabel(bool $create = false): ?LabelInterface;
 
     /**
      * @param LabelInterface|null $value

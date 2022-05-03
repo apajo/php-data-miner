@@ -16,11 +16,6 @@ class Property implements PropertyInterface
     protected ?int $id = null;
 
     /**
-     * @var string
-     */
-    protected ?string $name = null;
-
-    /**
      * @var EntryInterface|null
      */
     protected ?EntryInterface $entry = null;
@@ -29,6 +24,29 @@ class Property implements PropertyInterface
      * @var Label|null
      */
     protected ?Label $label = null;
+
+    /**
+     * @var ModelProperty|null
+     */
+    private ?ModelProperty $modelProperty = null;
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->modelProperty ? $this->modelProperty->getName() : null;
+    }
+
+    public function getModelProperty(): ?ModelProperty
+    {
+        return $this->modelProperty;
+    }
+
+    public function setModelProperty(?ModelProperty $modelProperty): void
+    {
+        $this->modelProperty === $modelProperty;
+    }
 
     /**
      * @var Collection|FeatureInterface[]
@@ -45,29 +63,31 @@ class Property implements PropertyInterface
         return $this->id;
     }
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
     public function getEntry(): ?EntryInterface
     {
         return $this->entry;
     }
-    
+
     public function setEntry(?EntryInterface $entry = null)
     {
         $this->entry = $entry;
     }
 
-    public function getLabel(): ?LabelInterface
+    public function getLabel(bool $create = false): ?LabelInterface
     {
-        return $this->label;
+        if ($this->label) {
+            return $this->label;
+        }
+
+        if (!$create) {
+            return null;
+        }
+
+        $label = self::createLabel();
+        $label->setEntry($this->getEntry());
+        $this->getEntry()->getModel()->addLabel($label);
+
+        return $label;
     }
 
     public function setLabel(?LabelInterface $label): void
@@ -94,7 +114,9 @@ class Property implements PropertyInterface
         $this->features->removeElement($propertyFeature);
         $propertyFeature->setProperty(null);
     }
-}
 
-class StorageProperty extends Property
-{}
+    public static function createLabel(): LabelInterface
+    {
+        return new Label();
+    }
+}

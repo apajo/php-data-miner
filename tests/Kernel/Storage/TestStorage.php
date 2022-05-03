@@ -10,6 +10,7 @@ use PhpDataMiner\Storage\Model\ModelInterface;
 use PhpDataMiner\Storage\Model\Property;
 use PhpDataMiner\Storage\StorageInterface;
 use PhpDataMiner\Storage\StorageTrait;
+use ReflectionObject;
 
 /**
  * Description of Miner
@@ -56,6 +57,7 @@ class TestStorage implements StorageInterface
     public function getModel($entity): ?ModelInterface
     {
         $model = new TestModel();
+        $ref = new ReflectionObject($model); $prop = $ref->getProperty('id'); $prop->setAccessible(true); $prop->setValue($model, rand());
         $model->setModel(get_class($entity));
 
         return $model;

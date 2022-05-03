@@ -17,5 +17,5 @@ interface DiscriminatorInterface
      */
     public function getArray(): ?array;
 
-    public function matches (DiscriminatorInterface $discriminator): bool;
+    public function matches(DiscriminatorInterface $discriminator): bool;
 }

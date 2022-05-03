@@ -4,7 +4,7 @@ namespace PhpDataMinerTests;
 
 
 use PhpDataMiner\DataMiner;
-use PhpDataMiner\Model\Property\AbstractProperty;
+use PhpDataMiner\Manager;
 use PhpDataMiner\Model\Property\DateProperty;
 use PhpDataMiner\Model\Property\Feature\WordTreeFeature;
 use PhpDataMiner\Model\Property\FloatProperty;
@@ -16,13 +16,17 @@ use PhpDataMiner\Normalizer\Tokenizer\WordTree;
 use PhpDataMiner\Normalizer\Transformer\ColonFilter;
 use PhpDataMiner\Normalizer\Transformer\DateFilter;
 use PhpDataMiner\Normalizer\Transformer\NumberFilter;
-use PhpDataMiner\Normalizer\Transformer\PriceFilter;
 use PhpDataMiner\Normalizer\Transformer\Section;
+use PhpDataMiner\Storage\Model\FeatureInterface;
+use PhpDataMiner\Storage\Model\PropertyInterface;
 use PhpDataMinerTests\Helpers\Load;
 use PhpDataMinerTests\Kernel\Storage\TestStorage;
 use PhpDataMinerTests\Kernel\TestKernel;
-
 use PhpDataMinerTests\Model\Invoice;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Symfony\Component\VarDumper\Dumper\CliDumper;
+use Symfony\Component\VarDumper\Dumper\HtmlDumper;
+use Symfony\Component\VarDumper\VarDumper;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -30,6 +34,12 @@ set_error_handler(function ($errno, $errstr, $errfile, $errline) {
     throw new \ErrorException($errstr, $errno, 1, $errfile, $errline);
 });
 
+VarDumper::setHandler(function ($var) {
+    $cloner = new VarCloner();
+    $dumper = 'cli' === PHP_SAPI ? new CliDumper() : new HtmlDumper();
+    $clone = $cloner->cloneVar($var);
+    $dumper->dump($clone->withMaxDepth(3));
+});
 
 $kernel = new TestKernel();
 $feature = new WordTreeFeature();
@@ -47,13 +57,12 @@ $filters = [
     new WordTree(),
 ];
 
-$miner = DataMiner::create(
+$miner = Manager::create(
     new Invoice(),
     $properties,
+    new TestStorage(),
     $filters,
-    [
-        'storage' => new TestStorage(),
-    ]
+    []
 );
 
 $path = __DIR__ . '/training';
@@ -61,7 +70,7 @@ $file = $path . '/files.csv';
 $files = $path . '/files';
 $index = 0;
 
-$loaded = new Load($file, $files, 50);
+$loaded = new Load($file, $files, 10);
 list($trains, $predicts) = $loaded->sliceList(4);
 
 foreach ($trains as $index => $train) {
@@ -71,8 +80,16 @@ foreach ($trains as $index => $train) {
 
     $doc = $miner->normalize($content);
 
-    $trainerd = $miner->train($entity, $doc);
-    dump([$index, $entity->number]);
+    $entry = $miner->train($entity, $doc);
+    //dump([$index, $entity->number]);
+    //dump($entry->getProperties()->toArray());
+//    dump($entry->getProperties()->map(function (PropertyInterface $a) {
+//        dump($a);
+////        return $a->getFeatures()->map(function (FeatureInterface $b) {
+////            return $b->setValue();
+////        });
+//    }));
+    dump($entry->getModel());
 }
 
 dump(['////////////////////////////////////////////////', '////////////////// PREDICTING //////////////////']);

@@ -1,6 +1,8 @@
 <?php
+
 namespace PhpDataMiner\Storage\Summary;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use PhpDataMiner\Model\Property\PropertyInterface;
 use PhpDataMiner\Storage\Model\Discriminator\DiscriminatorInterface;
 use PhpDataMiner\Storage\Model\Entry;
@@ -8,7 +10,6 @@ use PhpDataMiner\Storage\Model\LabelInterface;
 use PhpDataMiner\Storage\Model\ModelInterface;
 use PhpDataMiner\Storage\Model\PropertyInterface as StoragePropertyInterface;
 use PhpDataMiner\Storage\StorageInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Description of Model
@@ -27,13 +28,13 @@ class Model
         $this->storage = $storage;
     }
 
-    public function build (ModelInterface $model, PropertyInterface $property = null, DiscriminatorInterface $discriminator = null)
+    public function build(ModelInterface $model, PropertyInterface $property = null, DiscriminatorInterface $discriminator = null)
     {
         $props = $model->getProperties();
 
         $objects = new ArrayCollection();
         foreach ($model->getEntries() as $entry) {
-            if  ($objects->contains($entry->getDiscriminator())){
+            if ($objects->contains($entry->getDiscriminator())) {
                 continue;
             }
 
@@ -42,7 +43,7 @@ class Model
 
         $summary = new Summary();
 
-        $summary->setColumns($props->map(function (StoragePropertyInterface  $a) {
+        $summary->setColumns($props->map(function (StoragePropertyInterface $a) {
             return $a->getName();
         })->toArray());
 
