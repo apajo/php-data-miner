@@ -131,22 +131,6 @@ class Miner
 
                 $prop->getKernel()->buildVectors($property, $token, $prop);
                 $prop->getKernel()->train($entry, $prop);
-
-//                $pointer = new Pointer($token->getoption('index'));
-//                $modelProp = $this->storage->getProperty($entry, $prop->getPropertyPath());
-//                $modelLabel = $this->storage->getLabel($this->model, $prop, $token);
-//                $modelLabel->setText($token->getText());
-//
-//                $modelLabel->setValue((string)$pointer);
-//
-//                $modelProp->setLabel($modelLabel);
-//
-//                $entry->addProperty($modelProp);
-//                $this->model->addEntry($entry);
-//
-//
-//                $prop->getKernel()->buildVectors($modelProp, $token, $prop);
-//                $prop->getKernel()->train($entry, $prop);
             }
         }
 
