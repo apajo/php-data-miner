@@ -11,18 +11,32 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @author Andres Pajo
  */
-abstract class AbstractFilter extends RegexFilter
+abstract class AbstractFilter extends RegexFilter implements FilterInterface
 {
-    use OptionsBuilderTrait;
-
     function __construct (array $patterns, array $options = [])
     {
         $this->buildOptions($options);
 
         $this->patterns = $patterns;
     }
+    /**
+     * @var array
+     */
+    protected array $options = [];
 
-    protected function configureOptions(OptionsResolver $resolver)
+    public function getOption(string $name)
+    {
+        return $this->options[$name];
+    }
+
+    protected function buildOptions (array $options = [])
+    {
+        $resolver = new OptionsResolver();
+        $this->configureOptions($resolver);
+        $this->options = $resolver->resolve($options);
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
         ));

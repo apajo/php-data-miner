@@ -8,6 +8,7 @@ use PhpDataMiner\Model\Property\Feature\FeatureInterface;
 use PhpDataMiner\Model\Property\Transformer\Transformer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use PhpDataMiner\Normalizer\Transformer\FilterInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
@@ -42,12 +43,17 @@ abstract class AbstractProperty implements PropertyInterface, FlattenFeatureVect
     protected Collection $features;
 
     /**
+     * @var Collection|FilterInterface[]
+     */
+    protected Collection $filters;
+
+    /**
      *
      * @param KernelInterface $kernel
      * @param FeatureInterface[]|Collection $features
      * @param array $options
      */
-    function __construct (KernelInterface $kernel, array $features, array $options = [])
+    function __construct (KernelInterface $kernel, array $features, array $filters = [], array $options = [])
     {
         $this->buildOptions($options);
 
@@ -60,6 +66,11 @@ abstract class AbstractProperty implements PropertyInterface, FlattenFeatureVect
         $this->features = new ArrayCollection();
         foreach ($features as $feature) {
             $this->addFeature($feature);
+        }
+
+        $this->filters = new ArrayCollection();
+        foreach ($filters as $filter) {
+            $this->addFilter($filter);
         }
     }
 
@@ -176,5 +187,23 @@ abstract class AbstractProperty implements PropertyInterface, FlattenFeatureVect
     {
         $this->features->removeElement($feature);
         return $this;
+    }
+
+    /**
+     * @return FilterInterface[]
+     */
+    public function getFilters(): Collection
+    {
+        return $this->filters;
+    }
+
+    public function addFilter(FilterInterface $filter): void
+    {
+        $this->filters->add($filter);
+    }
+
+    public function removeFilter(FilterInterface $filter): void
+    {
+        $this->filters->removeElement($filter);
     }
 }

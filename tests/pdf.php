@@ -4,6 +4,7 @@ namespace PhpDataMinerTests;
 
 
 use PhpDataMiner\DataMiner;
+use PhpDataMiner\Model\Property\AbstractProperty;
 use PhpDataMiner\Model\Property\DateProperty;
 use PhpDataMiner\Model\Property\Feature\WordTreeFeature;
 use PhpDataMiner\Model\Property\FloatProperty;
@@ -34,27 +35,24 @@ $kernel = new TestKernel();
 $feature = new WordTreeFeature();
 
 $properties = new Provider(new Registry([
-    new FloatProperty($kernel, [$feature]),
-    new IntegerProperty($kernel, [$feature]),
-    new DateProperty($kernel, [$feature]),
+    new FloatProperty($kernel, [$feature], [new NumberFilter()]),
+    new IntegerProperty($kernel, [$feature], [new NumberFilter()]),
+    new DateProperty($kernel, [$feature], [new DateFilter()]),
     new Property($kernel, [$feature]),
 ]));
 $filters = [
-    DateFilter::class,
-    PriceFilter::class,
-    NumberFilter::class,
-    ColonFilter::class,
-    Section::class,
-    //NltkToken::class,
-    WordTree::class,
+    new ColonFilter(),
+    new Section(),
+    //new NltkToken::class,
+    new WordTree(),
 ];
 
 $miner = DataMiner::create(
     new Invoice(),
+    $properties,
+    $filters,
     [
         'storage' => new TestStorage(),
-        'properties' => $properties,
-        'filters' => $filters,
     ]
 );
 

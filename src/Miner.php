@@ -2,14 +2,13 @@
 
 namespace PhpDataMiner;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use PhpDataMiner\Helpers\OptionsBuilderTrait;
 use PhpDataMiner\Helpers\ResolveResult;
-use PhpDataMiner\Kernel\KernelInterface;
 use PhpDataMiner\Model\Describer;
 use PhpDataMiner\Model\Mapper;
-use PhpDataMiner\Model\Property\AbstractProperty;
 use PhpDataMiner\Model\Property\DateProperty;
-use PhpDataMiner\Model\Property\Feature\DefaultFeature;
 use PhpDataMiner\Model\Property\Feature\WordTreeFeature;
 use PhpDataMiner\Model\Property\FloatProperty;
 use PhpDataMiner\Model\Property\IntegerProperty;
@@ -21,10 +20,10 @@ use PhpDataMiner\Normalizer\Document\Document;
 use PhpDataMiner\Normalizer\Document\Pointer;
 use PhpDataMiner\Normalizer\Normalizer;
 use PhpDataMiner\Normalizer\Tokenizer\Token\TokenInterface;
+use PhpDataMiner\Normalizer\Transformer\FilterInterface;
 use PhpDataMiner\Storage\Model\EntryInterface;
 use PhpDataMiner\Storage\Model\ModelInterface;
 use PhpDataMiner\Storage\StorageInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use PhpDataMinerTests\Kernel\TestKernel;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -47,13 +46,28 @@ class Miner
      */
     protected $storage;
 
-    function __construct($entity, array $options = [])
+    /**
+     * @var Provider
+     */
+    protected $provider;
+
+    /**
+     * @var Collection|FilterInterface[]
+     */
+    private Collection $filters;
+
+
+    
+    function __construct($entity, Provider $provider, array $filters = [], array $options = [])
     {
         $this->buildOptions($options);
 
         $this->mapper = new Mapper([
             'provider' => $this->options['properties']
         ]);
+
+        $this->provider = $provider;
+        $this->filters = new ArrayCollection($filters);
 
         $this->storage =  $this->getOption('storage');
         $this->model = $this->storage->load($entity);
@@ -137,7 +151,7 @@ class Miner
         $document = new Document($content, $documentOptions);
 
         $normalizer = new Normalizer(array_merge([
-            'filters' => $this->getOption('filters')
+            'filters' => $this->collectFilters()
         ], $normalizerOptions));
 
         $normalizer->normalize($document);
@@ -171,5 +185,56 @@ class Miner
             ]))
 
         ]);
+    }
+
+    /**
+     * @return FilterInterface[]
+     */
+    public function collectFilters(): array
+    {
+        $result = [];
+
+        /** @var Property $property */
+        foreach ($this->provider->getRegistry() as $property) {
+            foreach ($property->getFilters() as $filter) {
+                $class = get_class($filter);
+
+                if (isset($result[$class])) {
+                    continue;
+                }
+
+                $result[$class] = $filter;
+            }
+        }
+
+        foreach ($this->filters as $filter) {
+            $class = get_class($filter);
+
+            if (isset($result[$class])) {
+                continue;
+            }
+
+            $result[$class] = $filter;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return FilterInterface[]
+     */
+    public function getFilters(): Collection
+    {
+        return $this->filters;
+    }
+
+    public function addFilter(FilterInterface $filter): void
+    {
+        $this->filters->add($filter);
+    }
+
+    public function removeFilter(FilterInterface $filter): void
+    {
+        $this->filters->removeElement($filter);
     }
 }

@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @author Andres Pajo
  */
-class RegexFilter extends AbstractFilter
+class RegexFilter extends AbstractFilter implements FilterInterface
 {
     /**
      * @var array
@@ -24,13 +24,6 @@ class RegexFilter extends AbstractFilter
     function __construct (array $patterns, array $options = [])
     {
         parent::__construct($patterns, $options);
-    }
-
-
-    protected function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-        ));
     }
 
     public function transform(array &$samples) : void

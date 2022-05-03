@@ -17,7 +17,7 @@ class Label implements LabelInterface
     /**
      * @var string|null
      */
-    private ?string $text = null;
+    protected ?string $text = null;
 
     /**
      * @var string|null

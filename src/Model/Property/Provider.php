@@ -37,6 +37,11 @@ class Provider
 
     }
 
+    public function getRegistry (): Registry
+    {
+        return $this->registry;
+    }
+
     public function resolveProperty(ReflectionProperty $reflection, Type $info = null, array $annots = []): ?PropertyInterface
     {
         if (!$info) {
