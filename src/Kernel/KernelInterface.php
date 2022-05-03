@@ -4,6 +4,7 @@ namespace PhpDataMiner\Kernel;
 
 
 use PhpDataMiner\Model\Property\PropertyInterface as ModelPropertyInterface;
+use PhpDataMiner\Normalizer\Tokenizer\Token\Token;
 use PhpDataMiner\Storage\Model\PropertyInterface as StoragePropertyInterface;
 use PhpDataMiner\Normalizer\Document\Document;
 use PhpDataMiner\Normalizer\Tokenizer\Token\TokenInterface;
@@ -27,7 +28,9 @@ interface KernelInterface
     /**
      * @param StoragePropertyInterface $property
      * @param ModelPropertyInterface $modelProperty
+     * @param Token $token
+     * @param Document $doc
      * @return mixed
      */
-    public function train (StoragePropertyInterface $property, ModelPropertyInterface $modelProperty);
+    public function train (StoragePropertyInterface $property, ModelPropertyInterface $modelProperty, Token $token, Document $doc);
 }

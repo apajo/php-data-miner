@@ -45,7 +45,7 @@ class Property implements PropertyInterface
 
     public function setModelProperty(?ModelProperty $modelProperty): void
     {
-        $this->modelProperty === $modelProperty;
+        $this->modelProperty = $modelProperty;
     }
 
     /**
@@ -118,5 +118,10 @@ class Property implements PropertyInterface
     public static function createLabel(): LabelInterface
     {
         return new Label();
+    }
+
+    public static function createFeature (): FeatureInterface
+    {
+        return new Feature();
     }
 }

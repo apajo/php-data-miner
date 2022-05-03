@@ -76,7 +76,7 @@ abstract class AbstractProperty implements PropertyInterface, FlattenFeatureVect
 
     public function getName(): ?string
     {
-        return $this->name;
+        return $this->getPropertyPath();
     }
 
     public function getKernel(): ?KernelInterface

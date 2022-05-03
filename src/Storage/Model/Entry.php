@@ -3,6 +3,7 @@
 namespace PhpDataMiner\Storage\Model;
 
 
+use _HumbugBox113887eee2b6\FFI\Exception;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use PhpDataMiner\Storage\Model\Discriminator\Discriminator;
@@ -88,7 +89,7 @@ class Entry implements EntryInterface
             return null;
         }
 
-        $modelProp = $this->getModel()->getProperty($property, true);
+        $modelProp = $this->getModel()->getProperty($property, $create);
         $modelProp->setName($property);
 
         $new = self::createProperty();

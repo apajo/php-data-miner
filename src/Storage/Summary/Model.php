@@ -8,7 +8,7 @@ use PhpDataMiner\Storage\Model\Discriminator\DiscriminatorInterface;
 use PhpDataMiner\Storage\Model\Entry;
 use PhpDataMiner\Storage\Model\LabelInterface;
 use PhpDataMiner\Storage\Model\ModelInterface;
-use PhpDataMiner\Storage\Model\PropertyInterface as StoragePropertyInterface;
+use PhpDataMiner\Storage\Model\ModelPropertyInterface as StoragePropertyInterface;
 use PhpDataMiner\Storage\StorageInterface;
 
 /**

@@ -61,4 +61,6 @@ interface PropertyInterface
      * @return mixed
      */
     public function removeFeature(Feature $PropertyFeature);
+
+    public static function createFeature (): FeatureInterface;
 }

@@ -5,7 +5,6 @@ namespace PhpDataMiner;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use PhpDataMiner\Helpers\OptionsBuilderTrait;
-use PhpDataMiner\Helpers\ResolveResult;
 use PhpDataMiner\Model\Describer;
 use PhpDataMiner\Model\Mapper;
 use PhpDataMiner\Model\Property\Property;
@@ -67,34 +66,6 @@ class Miner
         $this->model = $this->storage->load($entity);
     }
 
-    public function predict (&$entity, Document $doc)
-    {
-        /** @var PropertyInterface[] $iterator */
-        $iterator = $this->mapper->getIterator($entity);
-
-        $changes = new ArrayCollection();
-        $result = new ResolveResult();
-
-        /** @var PropertyInterface $property */
-        foreach ($iterator as $property) {
-            /** @var TokenInterface $token */
-            $token = $property->getKernel()->predict($this->model, $property, $doc);
-
-            if (!$token) {
-                continue;
-            }
-
-            $changes->offsetSet($property->getPropertyPath(), $token);
-            $result->add($property, $token, $token->getValue(), [
-                'vector' => (string)new Pointer($token->getOption('index'))
-            ]);
-
-            $property->setValue($entity, $token);
-        }
-
-        return $result;
-    }
-
     public function train (&$entity, Document $doc): Entry
     {
         /** @var Describer $description */
@@ -119,23 +90,61 @@ class Miner
             $token = $doc->traverser->search($entity, $prop);
             $value = $prop->getValue($entity);
 
-            if ($value && $token) {
-                $property = $entry->getProperty($prop->getName(), true);
-
-                $pointer = new Pointer($token->getOption('index'));
-                $label = $property->getLabel(true);
-                $property->setLabel($label);
-
-                $label->setValue($pointer);
-                $label->setText($value);
-
-                $prop->getKernel()->buildVectors($property, $token, $prop);
-                $prop->getKernel()->train($property, $prop);
+            if (!$token) {
+                continue;
             }
+
+            $property = $entry->getProperty($prop->getName(), true);
+
+            $pointer = new Pointer($token->getOption('index'));
+            $label = $property->getLabel(true);
+            $property->setLabel($label);
+
+            $label->setValue($pointer);
+            $label->setText($value);
+
+            $prop->getKernel()->train($property, $prop, $token, $doc);
         }
 
         $this->model->addEntry($entry);
         $this->storage->save($this->model);
+
+        return $entry;
+    }
+
+    public function predict (&$entity, Document $doc)
+    {
+        /** @var PropertyInterface[] $iterator */
+        $iterator = $this->mapper->getIterator($entity);
+
+        $discriminator = $this->model::createEntryDiscriminator($entity);
+
+        $entry = $this->model::createEntry();
+        $entry->setDiscriminator($discriminator);
+        $entry->setModel($this->model);
+
+        /** @var PropertyInterface $_property */
+        foreach ($iterator as $_property) {
+            $property = $entry->getProperty($_property->getPropertyPath(), true);
+
+            /** @var TokenInterface $token */
+            $token = $_property->getKernel()->predict($property, $_property, $doc);
+
+            if (!$token) {
+                continue;
+            }
+
+            $pointer = new Pointer($token->getOption('index'));
+            $label = $property->getLabel(true);
+            $property->setLabel($label);
+
+            $label->setValue($pointer);
+            $label->setText($token->getText());
+
+            $_property->setValue($entity, $label->getText());
+
+            $this->model->addEntry($entry);
+        }
 
         return $entry;
     }

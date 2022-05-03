@@ -4,7 +4,7 @@ namespace PhpDataMiner\Kernel;
 
 use PhpDataMiner\Model\Property\FlattenFeatureVectors;
 use PhpDataMiner\Storage\Model\FeatureInterface;
-use PhpDataMiner\Storage\Model\PropertyInterface as StoragePropertyInterface;
+use PhpDataMiner\Storage\Model\ModelPropertyInterface as StoragePropertyInterface;
 use PhpDataMiner\Model\Property\PropertyInterface as ModelPropertyInterface;
 use Rubix\ML\Datasets\Labeled;
 

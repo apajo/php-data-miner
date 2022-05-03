@@ -7,8 +7,9 @@ use PhpDataMiner\Storage\Model\Discriminator\DiscriminatorInterface;
 use PhpDataMiner\Storage\Model\EntryInterface;
 use PhpDataMiner\Storage\Model\LabelInterface;
 use PhpDataMiner\Storage\Model\Model as Base;
-use PhpDataMiner\Storage\Model\ModelProperty;
+use PhpDataMiner\Storage\Model\ModelInterface;
 use PhpDataMiner\Storage\Model\ModelPropertyInterface;
+use PhpDataMinerTests\Model\Invoice;
 use ReflectionObject;
 
 /**
@@ -19,7 +20,7 @@ use ReflectionObject;
 class Model extends Base
 {
     /**
-     * @param $value
+     * @param Invoice $value
      * @return DiscriminatorInterface
      */
     public static function createEntryDiscriminator($value): DiscriminatorInterface
@@ -27,6 +28,13 @@ class Model extends Base
         return new Discriminator([
             $value->number,
         ]);
+    }
+
+    public static function createModel (): ModelInterface
+    {
+        $new = new Model();
+        $ref = new ReflectionObject($new); $prop = $ref->getProperty('id'); $prop->setAccessible(true); $prop->setValue($new, rand());
+        return $new;
     }
 
     public static function createProperty (): ModelPropertyInterface
