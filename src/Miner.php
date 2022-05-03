@@ -130,7 +130,7 @@ class Miner
                 $label->setText($value);
 
                 $prop->getKernel()->buildVectors($property, $token, $prop);
-                $prop->getKernel()->train($entry, $prop);
+                $prop->getKernel()->train($property, $prop);
             }
         }
 

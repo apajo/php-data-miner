@@ -27,7 +27,7 @@ class Model implements ModelInterface
             return new Discriminator([$value->getId()]);
         }
 
-        $disc = (string)base64_encode($value);
+        $disc = (string)base64_encode(serialize($value));
         return new Discriminator([intval($disc, 64)]);
     }
 
@@ -59,7 +59,7 @@ class Model implements ModelInterface
     /**
      * @var Collection|ModelProperty[]
      */
-    private Collection $propertys;
+    protected Collection $propertys;
 
     function __construct()
     {

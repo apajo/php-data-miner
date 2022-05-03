@@ -6,7 +6,9 @@ use PhpDataMiner\Kernel\AbstractKernel;
 use PhpDataMiner\Kernel\KernelInterface;
 use PhpDataMiner\Storage\Model\EntryInterface;
 use PhpDataMiner\Storage\Model\ModelInterface;
-use PhpDataMiner\Model\Property\PropertyInterface;
+use PhpDataMiner\Storage\Model\PropertyInterface as StoragePropertyInterface;
+use PhpDataMiner\Model\Property\PropertyInterface as ModelPropertyInterface;
+use PhpDataMiner\Storage\Model\PropertyInterface;
 use PhpDataMiner\Normalizer\Document\Document;
 use PhpDataMiner\Normalizer\Document\Pointer;
 use PhpDataMiner\Normalizer\Tokenizer\Token\TokenInterface;
@@ -26,9 +28,9 @@ class TestKernel extends AbstractKernel implements KernelInterface
         $this->kernel = new KNearestNeighbors(3, false, new Manhattan());
     }
 
-    public function train (EntryInterface $entry, PropertyInterface $property)
+    public function train (StoragePropertyInterface $property, ModelPropertyInterface $modelProperty)
     {
-        $samples = $entry->getModel()->resolveSamples($property);
+        $samples = $property->getEntry()->getModel()->resolveSamples($modelProperty);
 
         $dataset = new Labeled(
             array_map(function ($a) {
@@ -40,9 +42,9 @@ class TestKernel extends AbstractKernel implements KernelInterface
         // $this->kernel->train($dataset);
     }
 
-    public function predict (ModelInterface $model, PropertyInterface $property, Document $doc): ?TokenInterface
+    public function predict (StoragePropertyInterface $property, ModelPropertyInterface $modelProperty, Document $doc): ?TokenInterface
     {
-        $labels = $this->groupByValues($model, $property);
+        $labels = $this->groupByValues($property->getEntry()->getModel(), $property);
 
         foreach ($labels as $index => $entries ) {
             $result = $doc->getTraverser()->getValue(

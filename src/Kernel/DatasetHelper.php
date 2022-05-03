@@ -4,43 +4,43 @@ namespace PhpDataMiner\Kernel;
 
 use PhpDataMiner\Model\Property\FlattenFeatureVectors;
 use PhpDataMiner\Storage\Model\FeatureInterface;
-use PhpDataMiner\Storage\Model\PropertyInterface as Model;
-use PhpDataMiner\Model\Property\PropertyInterface;
+use PhpDataMiner\Storage\Model\PropertyInterface as StoragePropertyInterface;
+use PhpDataMiner\Model\Property\PropertyInterface as ModelPropertyInterface;
 use Rubix\ML\Datasets\Labeled;
 
 class DatasetHelper
 {
-    public function buildLabeledDataset(PropertyInterface $property, Model $model): Labeled
+    public function buildLabeledDataset(StoragePropertyInterface $property, ModelPropertyInterface $modelProperty): Labeled
     {
-        $label = $model->getLabel()->getValue();
+        $label = $property->getLabel()->getValue();
 
-        $vectors = $this->getFeatureVector($property, $model);
+        $vectors = $this->getFeatureVector($modelProperty, $property);
 
-        if ($property instanceof FlattenFeatureVectors) {
+        if ($modelProperty instanceof FlattenFeatureVectors) {
             $vectors = array_merge($vectors);
         }
 
         return new Labeled([$vectors], [$label]);
     }
 
-    public function getFeatureVector(PropertyInterface $property, Model $model): array
+    public function getFeatureVector(ModelPropertyInterface $modelProperty, StoragePropertyInterface $property): array
     {
-        $vectors = $model->getFeatures()->map(function (FeatureInterface $a) use ($property)  {
-            return $this->buildVector($property, $a);
+        $vectors = $property->getFeatures()->map(function (FeatureInterface $a) use ($modelProperty)  {
+            return $this->buildVector($modelProperty, $a);
         })->toArray();
 
-        if ($property instanceof FlattenFeatureVectors) {
+        if ($modelProperty instanceof FlattenFeatureVectors) {
             $vectors = array_merge(...$vectors);
         }
 
         return $vectors;
     }
 
-    protected function buildVector (PropertyInterface $property, FeatureInterface $model): array
+    protected function buildVector (ModelPropertyInterface $modelProperty, FeatureInterface $model): array
     {
-        $feature = $property->getFeature($model->getName());
+        $feature = $modelProperty->getFeature($model->getName());
 
-        return array_map(function (float $a) use ($property, $feature) {
+        return array_map(function (float $a) use ($modelProperty, $feature) {
             return $a * $feature->getWeight();
         }, $model->getValue());
     }

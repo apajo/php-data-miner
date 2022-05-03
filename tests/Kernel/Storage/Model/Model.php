@@ -1,25 +1,22 @@
 <?php
 
-namespace PhpDataMinerTests\Kernel\Storage;
+namespace PhpDataMinerTests\Kernel\Storage\Model;
 
 use PhpDataMiner\Storage\Model\Discriminator\Discriminator;
 use PhpDataMiner\Storage\Model\Discriminator\DiscriminatorInterface;
-use PhpDataMiner\Storage\Model\Entry;
 use PhpDataMiner\Storage\Model\EntryInterface;
-use PhpDataMiner\Storage\Model\Label;
 use PhpDataMiner\Storage\Model\LabelInterface;
 use PhpDataMiner\Storage\Model\Model as Base;
 use PhpDataMiner\Storage\Model\ModelProperty;
 use PhpDataMiner\Storage\Model\ModelPropertyInterface;
 use ReflectionObject;
-use ReflectionProperty;
 
 /**
- * Description of Miner
+ * Description of Model
  *
  * @author Andres Pajo
  */
-class TestModel extends Base
+class Model extends Base
 {
     /**
      * @param $value

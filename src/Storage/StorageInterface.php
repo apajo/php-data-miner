@@ -19,37 +19,6 @@ use PhpDataMiner\Storage\Model\Property;
 interface StorageInterface
 {
     /**
-     * @param $entity
-     * @return ModelInterface|null
-     */
-    public function getModel($entity): ?ModelInterface;
-
-    /**
-     * @param ModelInterface $model
-     * @param DiscriminatorInterface|null $discriminator
-     * @param bool $create
-     * @return EntryInterface|null
-     */
-    public function getEntry(ModelInterface $model, DiscriminatorInterface $discriminator = null, bool $create = true): ?EntryInterface;
-
-    /**
-     * @param EntryInterface $entry
-     * @param string $property
-     * @param bool $create
-     * @return Property|null
-     */
-    public function getProperty(EntryInterface $entry, string $property, bool $create = true): ?Property;
-
-    /**
-     * @param ModelInterface $model
-     * @param PropertyInterface $property
-     * @param string $label
-     * @param bool $create
-     * @return LabelInterface|null
-     */
-    public function getLabel(ModelInterface $model, PropertyInterface $property, Token $token, bool $create = true): ?LabelInterface;
-
-    /**
      * @param string $name
      * @return mixed
      */

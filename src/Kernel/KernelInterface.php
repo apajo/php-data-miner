@@ -3,13 +3,11 @@
 namespace PhpDataMiner\Kernel;
 
 
-use PhpDataMiner\Model\Property\PropertyInterface;
+use PhpDataMiner\Model\Property\PropertyInterface as ModelPropertyInterface;
+use PhpDataMiner\Storage\Model\PropertyInterface as StoragePropertyInterface;
 use PhpDataMiner\Normalizer\Document\Document;
 use PhpDataMiner\Normalizer\Tokenizer\Token\TokenInterface;
-use PhpDataMiner\Storage\Model\Entry;
-use PhpDataMiner\Storage\Model\EntryInterface;
 use PhpDataMiner\Storage\Model\ModelInterface;
-use Doctrine\Common\Collections\Collection;
 
 /**
  * Description of AbstractKernel
@@ -19,15 +17,17 @@ use Doctrine\Common\Collections\Collection;
 interface KernelInterface
 {
     /**
-     * @param ModelInterface $model
+     * @param StoragePropertyInterface $model
+     * @param ModelPropertyInterface $property
      * @param Document $doc
-     * @param PropertyInterface $property
      * @return TokenInterface|null
      */
-    public function predict(ModelInterface $model, PropertyInterface $property, Document $doc): ?TokenInterface;
+    public function predict(StoragePropertyInterface $property, ModelPropertyInterface $modelProperty, Document $doc): ?TokenInterface;
 
     /**
-     * @param Entry[]|Collection $entries
+     * @param StoragePropertyInterface $property
+     * @param ModelPropertyInterface $modelProperty
+     * @return mixed
      */
-    public function train(EntryInterface $entry, PropertyInterface $property);
+    public function train (StoragePropertyInterface $property, ModelPropertyInterface $modelProperty);
 }

@@ -2,22 +2,14 @@
 
 namespace PhpDataMiner\Kernel;
 
-use Core\BaseBundle\Entity\Miner\StorageFeature;
-use PhpDataMiner\Model\Property\PropertyInterface;
+use PhpDataMiner\Model\Property\PropertyInterface as ModelPropertyInterface;
+use PhpDataMiner\Storage\Model\PropertyInterface as StoragePropertyInterface;
 use PhpDataMiner\Normalizer\Document\Document;
 use PhpDataMiner\Normalizer\Tokenizer\Token\Token;
 use PhpDataMiner\Normalizer\Tokenizer\Token\TokenInterface;
-use PhpDataMiner\Storage\Model\Entry;
-use PhpDataMiner\Storage\Model\EntryInterface;
 use PhpDataMiner\Storage\Model\Feature;
 use PhpDataMiner\Storage\Model\ModelInterface;
-use PhpDataMiner\Storage\Model\PropertyInterface as StoragePropertyInterface;
-use Doctrine\Common\Collections\Collection;
-use Rubix\ML\Classifiers\KNearestNeighbors;
-use Rubix\ML\Datasets\Labeled;
-use Rubix\ML\Datasets\Unlabeled;
 use Rubix\ML\Estimator;
-use Rubix\ML\Kernels\Distance\Manhattan;
 use Rubix\ML\Persisters\Persister;
 
 /**
@@ -45,23 +37,19 @@ abstract class AbstractKernel implements KernelInterface
 
     /**
      * @param ModelInterface $model
+     * @param ModelPropertyInterface $modelProperty
      * @param Document $doc
-     * @param PropertyInterface $property
      * @return TokenInterface|null
      */
-    public function predict (ModelInterface $model, PropertyInterface $property, Document $doc): ?TokenInterface
+    public function predict (StoragePropertyInterface $property, ModelPropertyInterface $modelProperty, Document $doc): ?TokenInterface
     {
-
+        return null;
     }
 
-    /**
-     * @param EntryInterface $entry
-     * @param PropertyInterface $property
-     */
-    public function train (EntryInterface $entry, PropertyInterface $property)
+
+    public function train (StoragePropertyInterface $property, ModelPropertyInterface $modelProperty)
     {
-        $prop = $entry->getProperty($property->getPropertyPath());
-        $samples = $this->dataset->buildLabeledDataset($property, $prop);
+        $samples = $this->dataset->buildLabeledDataset($modelProperty, $property->getEntry()->getModel());
 
         $this->kernel->train($samples);
     }
@@ -71,11 +59,11 @@ abstract class AbstractKernel implements KernelInterface
      *
      * @param StoragePropertyInterface $model
      * @param Token $token
-     * @param PropertyInterface $property
+     * @param ModelPropertyInterface $property
      */
-    public function buildVectors (StoragePropertyInterface $model, Token $token, PropertyInterface $property)
+    public function buildVectors (StoragePropertyInterface $model, Token $token, ModelPropertyInterface $modelProperty)
     {
-        foreach ($property->getFeatures() as $key => $feature) {
+        foreach ($modelProperty->getFeatures() as $key => $feature) {
             $vector = $model->getFeatures()->offsetExists($key) ?
                 $model->getFeatures()->offsetGet($key) : null;
 

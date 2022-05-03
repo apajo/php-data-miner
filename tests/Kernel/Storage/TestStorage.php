@@ -3,14 +3,11 @@
 namespace PhpDataMinerTests\Kernel\Storage;
 
 use PhpDataMiner\Normalizer\Tokenizer\Token\Token;
-use PhpDataMiner\Storage\Model\Entry;
-use PhpDataMiner\Storage\Model\Label;
-use PhpDataMiner\Storage\Model\Model;
 use PhpDataMiner\Storage\Model\ModelInterface;
-use PhpDataMiner\Storage\Model\Property;
 use PhpDataMiner\Storage\StorageInterface;
 use PhpDataMiner\Storage\StorageTrait;
 use ReflectionObject;
+use PhpDataMinerTests\Kernel\Storage\Model\Model;
 
 /**
  * Description of Miner
@@ -20,13 +17,6 @@ use ReflectionObject;
 class TestStorage implements StorageInterface
 {
     use StorageTrait;
-
-
-    protected $labelModel = Label::class;
-
-    protected $entryModel = Entry::class;
-
-    protected $propertyModel = Property::class;
 
     function __construct ()
     {
@@ -48,7 +38,7 @@ class TestStorage implements StorageInterface
         $model = unserialize($content);
 
         if (!$model) {
-            $model = new TestModel();
+            $model = new Model();
         }
 
         return $model;
@@ -56,7 +46,7 @@ class TestStorage implements StorageInterface
 
     public function getModel($entity): ?ModelInterface
     {
-        $model = new TestModel();
+        $model = new Model();
         $ref = new ReflectionObject($model); $prop = $ref->getProperty('id'); $prop->setAccessible(true); $prop->setValue($model, rand());
         $model->setModel(get_class($entity));
 

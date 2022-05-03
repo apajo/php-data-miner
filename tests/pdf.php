@@ -38,7 +38,7 @@ VarDumper::setHandler(function ($var) {
     $cloner = new VarCloner();
     $dumper = 'cli' === PHP_SAPI ? new CliDumper() : new HtmlDumper();
     $clone = $cloner->cloneVar($var);
-    $dumper->dump($clone->withMaxDepth(3));
+    $dumper->dump($clone->withMaxDepth(4));
 });
 
 $kernel = new TestKernel();
@@ -89,7 +89,7 @@ foreach ($trains as $index => $train) {
 ////            return $b->setValue();
 ////        });
 //    }));
-    dump($entry->getModel());
+    dd($entry->getModel());
 }
 
 dump(['////////////////////////////////////////////////', '////////////////// PREDICTING //////////////////']);
