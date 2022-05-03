@@ -18,43 +18,43 @@ class Invoice
      */
     public ?string $number = null;
 
-//    /**
-//     * @var int|null
-//     * @Property()
-//     */
-//    public ?int $vat = null;
-//
-//    /**
-//     * @var float|null
-//     * @Property()
-//     */
-//    public ?float $sum = null;
-//
-//    /**
-//     * @var DateTime|null
-//     * @Property()
-//     */
-//    public ?DateTime $duedate = null;
-//
-//    /**
-//     * @var DateTime|null
-//     * @Property()
-//     */
-//    public ?DateTime $received;
-//
-//
-//    /**
-//     * @var string|null
-//     * @Property()
-//     */
-//    public ?string $ponumber = null;
-//
-//
-//    /**
-//     * @var string|null
-//     * @Property()
-//     */
-//    public ?string $reference = null;
+    /**
+     * @var int|null
+     * @Property()
+     */
+    public ?int $vat = null;
+
+    /**
+     * @var float|null
+     * @Property()
+     */
+    public ?float $sum = null;
+
+    /**
+     * @var DateTime|null
+     * @Property()
+     */
+    public ?DateTime $duedate = null;
+
+    /**
+     * @var DateTime|null
+     * @Property()
+     */
+    public ?DateTime $received;
+
+
+    /**
+     * @var string|null
+     * @Property()
+     */
+    public ?string $ponumber = null;
+
+
+    /**
+     * @var string|null
+     * @Property()
+     */
+    public ?string $reference = null;
 
     public static function createModel (array $data = []): self
     {

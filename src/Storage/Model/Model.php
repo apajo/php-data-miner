@@ -42,11 +42,6 @@ class Model implements ModelInterface
     protected ?string $name;
 
     /**
-     * @var string|null
-     */
-    protected ?string $model = null;
-
-    /**
      * @var Collection|LabelInterface[]
      */
     protected ?Collection $labels;
@@ -217,16 +212,6 @@ class Model implements ModelInterface
     public function removeProperty(ModelProperty $property): void
     {
         $this->propertys->removeElement($property);
-    }
-
-    public function getModel(): string
-    {
-        return $this->model;
-    }
-
-    public function setModel(string $model): void
-    {
-        $this->model = $model;
     }
 
     public static function createProperty(): ModelPropertyInterface

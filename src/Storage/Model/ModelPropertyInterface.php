@@ -9,9 +9,9 @@ namespace PhpDataMiner\Storage\Model;
  */
 interface ModelPropertyInterface
 {
-    public function getKernel(): ?string;
+    public function getKernelState(): ?string;
 
-    public function setKernel(?string $kernel): void;
+    public function setKernelState(?string $kernelState): void;
 
     public function getName(): string;
 

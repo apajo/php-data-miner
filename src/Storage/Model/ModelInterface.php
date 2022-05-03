@@ -75,17 +75,6 @@ interface ModelInterface
     public function removeLabel(LabelInterface $label);
 
     /**
-     * @return string
-     */
-    public function getModel(): string;
-
-    /**
-     * @param string $model
-     */
-    public function setModel(string $model): void;
-
-
-    /**
      * @return ModelProperty
      */
     public function getProperty(string $name, bool $create = false): ?ModelProperty;

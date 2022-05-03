@@ -22,21 +22,21 @@ class ModelProperty implements ModelPropertyInterface
     /**
      * @var string|null
      */
-    private ?string $kernel = null;
+    private ?string $kernelState = null;
 
     /**
      * @var Model|null
      */
     protected ?Model $model = null;
 
-    public function getKernel(): ?string
+    public function getKernelState(): ?string
     {
-        return $this->kernel;
+        return $this->kernelState;
     }
 
-    public function setKernel(?string $kernel): void
+    public function setKernelState(?string $kernelState): void
     {
-        $this->kernel = $kernel;
+        $this->kernelState = $kernelState;
     }
 
     public function getName(): string

@@ -142,9 +142,13 @@ class Miner
             $label->setText($token->getText());
 
             $_property->setValue($entity, $label->getText());
-
-            $this->model->addEntry($entry);
         }
+
+        $discriminator = $this->model::createEntryDiscriminator($entity);
+        $entry->setDiscriminator($discriminator);
+
+        $this->model->addEntry($entry);
+        $this->storage->save($this->model);
 
         return $entry;
     }
