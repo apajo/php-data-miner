@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^7.4",
+        "php": "^7.4|^8.1",
         "doctrine/annotations": "^1.13",
         "doctrine/collections": "^1.6",
         "phpdocumentor/reflection-docblock": "^5.0",
