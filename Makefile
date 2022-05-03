@@ -7,9 +7,6 @@ git_branch = $(shell git rev-parse --symbolic-full-name --abbrev-ref HEAD)
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-%:
-	@:
-
 help:           ## Show this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 

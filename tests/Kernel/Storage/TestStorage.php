@@ -30,15 +30,13 @@ class TestStorage implements StorageInterface
 
     public function load($entity, array $options = []): ModelInterface
     {
-        //unlink($this->path);
-
         if (!is_file($this->path)) {
             return $this->getModel($entity);
         }
 
         $content = file_get_contents($this->path);
         $model = unserialize($content);
-        $model = null;
+
         if (!$model) {
             $model = Model::createModel();
         }
@@ -54,7 +52,7 @@ class TestStorage implements StorageInterface
     {
         $model = Model::createModel();
         $ref = new ReflectionObject($model); $prop = $ref->getProperty('id'); $prop->setAccessible(true); $prop->setValue($model, rand());
-        $model->setModel(get_class($entity));
+        $model->setName(get_class($entity));
 
         return $model;
     }

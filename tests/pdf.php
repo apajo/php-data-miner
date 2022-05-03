@@ -54,7 +54,7 @@ $file = $path . '/files.csv';
 $files = $path . '/files';
 $index = 0;
 
-$loaded = new Load($file, $files, 10);
+$loaded = new Load($file, $files, 5);
 list($trains, $predicts) = $loaded->sliceList(1);
 
 foreach ($trains as $index => $train) {
@@ -65,9 +65,11 @@ foreach ($trains as $index => $train) {
     $doc = $miner->normalize($content);
 
     $entry = $miner->train($entity, $doc);
-    //dump([$index, $entity->number]);
+    dump([$index, $entity->number]);
 }
-dump($miner->getModel());
+//dump($miner->getModel());
+
+
 dump(['////////////////////////////////////////////////', '////////////////// PREDICTING //////////////////']);
 foreach ($predicts as $index => $predict) {
     $entity = Invoice::createModel([]);
