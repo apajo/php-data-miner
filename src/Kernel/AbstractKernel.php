@@ -4,6 +4,7 @@ namespace PhpDataMiner\Kernel;
 
 use PhpDataMiner\Model\Property\PropertyInterface as ModelPropertyInterface;
 use PhpDataMiner\Normalizer\Document\Pointer;
+use PhpDataMiner\Storage\Model\FeatureInterface;
 use PhpDataMiner\Storage\Model\PropertyInterface as StoragePropertyInterface;
 use PhpDataMiner\Normalizer\Document\Document;
 use PhpDataMiner\Normalizer\Tokenizer\Token\Token;
@@ -69,22 +70,18 @@ abstract class AbstractKernel implements KernelInterface
     public function train (StoragePropertyInterface $property, ModelPropertyInterface $modelProperty, Document $doc, Token $token)
     {
         $result = $this->process(function (Learner $estimator) use ($property, $modelProperty) {
-            $samples = $property->getEntry()->getModel()->resolveSamples($modelProperty);
+            $data = [
+                'labels' => [
+                    $property->getLabel()->getValue(),
+                ],
+                'samples' => array_merge($property->getFeatures()->map(function (FeatureInterface $a){
+                    return $a->getValue();
+                })->toArray())
+            ];
 
-            if (!$samples) {
-                return;
-            }
+            $dataset = new Labeled($data['samples'], $data['labels']);
 
-//            $dataset = new Labeled(
-//                array_map(
-//                    function ($a) {
-//                        return array_map('intval', explode('.', $a));
-//                    }, array_column($samples, 'data')
-//                ),
-//                array_column($samples, 'label')
-//            );
-//            dd($dataset);
-//            $estimator->train($dataset);
+            $estimator->train($dataset);
         }, $property);
 
         return $result;
