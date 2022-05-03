@@ -85,16 +85,16 @@ class Miner
             $entry->setModel($this->model);
         }
 
-        /** @var PropertyInterface $prop */
-        foreach ($description->iterator as $prop) {
-            $token = $doc->traverser->search($entity, $prop);
-            $value = $prop->getValue($entity);
+        /** @var PropertyInterface $_property */
+        foreach ($description->iterator as $_property) {
+            $token = $doc->traverser->search($entity, $_property);
+            $value = $_property->getValue($entity);
 
             if (!$token) {
                 continue;
             }
 
-            $property = $entry->getProperty($prop->getName(), true);
+            $property = $entry->getProperty($_property->getName(), true);
 
             $pointer = new Pointer($token->getOption('index'));
             $label = $property->getLabel(true);
@@ -103,7 +103,8 @@ class Miner
             $label->setValue($pointer);
             $label->setText($value);
 
-            $prop->getKernel()->train($property, $prop, $token, $doc);
+            $_property->getKernel()->buildVectors($property, $_property, $doc, $token);
+            $_property->getKernel()->train($property, $_property, $doc, $token);
         }
 
         $this->model->addEntry($entry);
@@ -142,6 +143,8 @@ class Miner
             $label->setText($token->getText());
 
             $_property->setValue($entity, $label->getText());
+
+            $_property->getKernel()->buildVectors($property, $_property, $doc, $token);
         }
 
         $discriminator = $this->model::createEntryDiscriminator($entity);

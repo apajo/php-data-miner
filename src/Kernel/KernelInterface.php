@@ -32,5 +32,14 @@ interface KernelInterface
      * @param Document $doc
      * @return mixed
      */
-    public function train (StoragePropertyInterface $property, ModelPropertyInterface $modelProperty, Token $token, Document $doc);
+    public function train (StoragePropertyInterface $property, ModelPropertyInterface $modelProperty, Document $doc, Token $token);
+
+    /**
+     * @param StoragePropertyInterface $property
+     * @param ModelPropertyInterface $modelProperty
+     * @param Token $token
+     * @param Document $doc
+     * @return mixed
+     */
+    public function buildVectors (StoragePropertyInterface $property, ModelPropertyInterface $modelProperty, Document $doc, Token $token);
 }

@@ -48,8 +48,9 @@ abstract class AbstractKernel implements KernelInterface
         $serializer = new Native();
 
         $kernelState = $property && $property->getModelProperty()->getKernelState() ? $property->getModelProperty()->getKernelState()  : null;
+
         if ($kernelState) {
-            $this->kernel = $serializer->deserialize($kernelState);
+            $this->kernel = unserialize($kernelState);//$serializer->deserialize(unserialize($kernelState));
         }
 
         $result = call_user_func_array($invokable, [
@@ -65,27 +66,28 @@ abstract class AbstractKernel implements KernelInterface
         return $result;
     }
 
-    public function train (StoragePropertyInterface $property, ModelPropertyInterface $modelProperty, Token $token, Document $doc)
+    public function train (StoragePropertyInterface $property, ModelPropertyInterface $modelProperty, Document $doc, Token $token)
     {
-        /**
-         * @param Estimator|Persister|Learner $estimator
-         */
-        $this->process(function (Learner $estimator) use ($property, $modelProperty) {
+        $result = $this->process(function (Learner $estimator) use ($property, $modelProperty) {
             $samples = $property->getEntry()->getModel()->resolveSamples($modelProperty);
 
             if (!$samples) {
                 return;
             }
 
-            $dataset = new Labeled(
-                array_map(function ($a) {
-                    return array_map('intval', explode('.', $a));
-                }, array_column($samples, 'data'))
-                , array_column($samples, 'label')
-            );
-
-            $estimator->train($dataset);
+//            $dataset = new Labeled(
+//                array_map(
+//                    function ($a) {
+//                        return array_map('intval', explode('.', $a));
+//                    }, array_column($samples, 'data')
+//                ),
+//                array_column($samples, 'label')
+//            );
+//            dd($dataset);
+//            $estimator->train($dataset);
         }, $property);
+
+        return $result;
     }
 
     public function predict(StoragePropertyInterface $property, ModelPropertyInterface $modelProperty, Document $doc): ?TokenInterface
@@ -118,7 +120,7 @@ abstract class AbstractKernel implements KernelInterface
             return null;
         }, $property);
 
-        return null;
+        return $result;
 
     }
 
@@ -129,7 +131,7 @@ abstract class AbstractKernel implements KernelInterface
      * @param ModelPropertyInterface $modelProperty
      * @param Token $token
      */
-    public function buildVectors (StoragePropertyInterface $property, ModelPropertyInterface $modelProperty, Token $token, Document $doc)
+    public function buildVectors (StoragePropertyInterface $property, ModelPropertyInterface $modelProperty, Document $doc, Token $token)
     {
         foreach ($modelProperty->getFeatures() as $key => $feature) {
             $vector = $property->getFeatures()->offsetExists($key) ?
@@ -144,6 +146,7 @@ abstract class AbstractKernel implements KernelInterface
             $feature->vectorize($vector, $token);
         }
     }
+
     public function groupByValues (ModelInterface $model, ModelPropertyInterface $target): array
     {
         $labels = [];
