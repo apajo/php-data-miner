@@ -26,4 +26,3 @@ release:
 	git tag -a $(arg) -m $(arg)
 	git push -f origin latest
 	git push -f origin $(arg)
-	ssh -t apajo "cd domeenid/www.apajo.ee/git/ && make repos"
