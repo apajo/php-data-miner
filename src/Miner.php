@@ -159,7 +159,7 @@ class Miner
     public function normalize (string $content, array $normalizerOptions = [], array $documentOptions = []): ?Document
     {
         $document = new Document($content, $documentOptions);
-dump($this->collectFilters());
+
         $normalizer = new Normalizer(array_merge([
             'filters' => $this->collectFilters()
         ], $normalizerOptions));
