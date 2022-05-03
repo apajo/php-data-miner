@@ -15,6 +15,7 @@ use Rubix\ML\Estimator;
 use Rubix\ML\Kernels\Distance\Manhattan;
 use Rubix\ML\Learner;
 use Rubix\ML\Persisters\Persister;
+use Rubix\ML\Serializers\Native;
 use Rubix\ML\Serializers\RBX;
 
 /**
@@ -41,18 +42,18 @@ abstract class AbstractKernel implements KernelInterface
         $this->kernel = new KNearestNeighbors(3, false, new Manhattan());
     }
 
-    protected function process ($invokable, StoragePropertyInterface $property = null): KernelInterface
+    protected function process ($invokable, StoragePropertyInterface $property = null)
     {
         $this->kernel = new KNearestNeighbors(3, false, new Manhattan());
-        $serializer = new RBX();
+        $serializer = new Native();
 
         $kernelState = $property && $property->getModelProperty()->getKernelState() ? $property->getModelProperty()->getKernelState()  : null;
         if ($kernelState) {
             $this->kernel = $serializer->deserialize($kernelState);
         }
 
-        call_user_func_array($invokable, [
-
+        $result = call_user_func_array($invokable, [
+            $this->kernel
         ]);
 
         if ($property && $property->getModelProperty()) {
@@ -60,6 +61,8 @@ abstract class AbstractKernel implements KernelInterface
 
             $property->getModelProperty() && $property->getModelProperty()->setKernelState($encoded);
         }
+
+        return $result;
     }
 
     public function train (StoragePropertyInterface $property, ModelPropertyInterface $modelProperty, Token $token, Document $doc)
@@ -69,6 +72,10 @@ abstract class AbstractKernel implements KernelInterface
          */
         $this->process(function (Learner $estimator) use ($property, $modelProperty) {
             $samples = $property->getEntry()->getModel()->resolveSamples($modelProperty);
+
+            if (!$samples) {
+                return;
+            }
 
             $dataset = new Labeled(
                 array_map(function ($a) {
@@ -110,7 +117,7 @@ abstract class AbstractKernel implements KernelInterface
 
             return null;
         }, $property);
-dump($result);
+
         return null;
 
     }
