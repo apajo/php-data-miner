@@ -7,7 +7,7 @@ class Summary
     /**
      * @var string|null
      */
-    private ?string $title = null;
+    protected ?string $title = null;
 
     /**
      * @var array

@@ -28,25 +28,7 @@ class Property implements PropertyInterface
     /**
      * @var ModelProperty|null
      */
-    private ?ModelProperty $modelProperty = null;
-
-    /**
-     * @return string|null
-     */
-    public function getName(): ?string
-    {
-        return $this->modelProperty ? $this->modelProperty->getName() : null;
-    }
-
-    public function getModelProperty(): ?ModelProperty
-    {
-        return $this->modelProperty;
-    }
-
-    public function setModelProperty(?ModelProperty $modelProperty): void
-    {
-        $this->modelProperty = $modelProperty;
-    }
+    protected ?ModelProperty $model_property = null;
 
     /**
      * @var Collection|FeatureInterface[]
@@ -61,6 +43,24 @@ class Property implements PropertyInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->modelProperty ? $this->modelProperty->getName() : null;
+    }
+
+    public function getModelProperty(): ?ModelProperty
+    {
+        return $this->modelProperty;
+    }
+
+    public function setModelProperty(?ModelProperty $model_property): void
+    {
+        $this->model_property = $model_property;
     }
 
     public function getEntry(): ?EntryInterface

@@ -22,7 +22,7 @@ class ModelProperty implements ModelPropertyInterface
     /**
      * @var string|null
      */
-    private ?string $kernelState = null;
+    protected ?string $kernelState = null;
 
     /**
      * @var Model|null
