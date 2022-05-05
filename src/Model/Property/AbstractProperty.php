@@ -53,7 +53,7 @@ abstract class AbstractProperty implements PropertyInterface, FlattenFeatureVect
      * @param FeatureInterface[]|Collection $features
      * @param array $options
      */
-    function __construct (KernelInterface $kernel, array $features, array $filters = [], array $options = [])
+    function __construct (KernelInterface $kernel, array $features = [], array $filters = [], array $options = [])
     {
         $this->buildOptions($options);
 
