@@ -51,7 +51,7 @@ class Discriminator implements DiscriminatorInterface
         $a = $discriminator->getArray();
         $b = $this->getArray();
 
-        if (count($a) !== count($b)) {
+        if (count($a ?: []) !== count($b ?: [])) {
             return false;
         }
 

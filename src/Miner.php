@@ -121,7 +121,6 @@ class Miner
         $discriminator = $this->model::createEntryDiscriminator($entity);
 
         $entry = $this->model::createEntry();
-        $entry->setDiscriminator($discriminator);
         $entry->setModel($this->model);
 
         /** @var PropertyInterface $_property */
@@ -147,12 +146,12 @@ class Miner
             $_property->getKernel()->buildVectors($property, $_property, $doc, $token);
         }
 
-        $discriminator = $this->model::createEntryDiscriminator($entity);
-        $entry->setDiscriminator($discriminator);
+//        $discriminator = $this->model::createEntryDiscriminator($entity);
+//        $entry->setDiscriminator($discriminator);
 
         $this->model->addEntry($entry);
-        $this->storage->save($this->model);
-
+        //$this->storage->save($this->model);
+dump($entity, $entry);
         return $entry;
     }
 
