@@ -43,7 +43,7 @@ abstract class AbstractKernel implements KernelInterface
         $this->kernel = new KNearestNeighbors(3, false, new Manhattan());
     }
 
-    protected function process ($invokable, StoragePropertyInterface $property = null)
+    protected function process ($invokable, StoragePropertyInterface $property)
     {
         $this->kernel = new KNearestNeighbors(3, false, new Manhattan());
         $serializer = new Native();
@@ -58,11 +58,8 @@ abstract class AbstractKernel implements KernelInterface
             $this->kernel
         ]);
 
-        if ($property && $property->getModelProperty()) {
-            $encoded = $serializer->serialize($this->kernel);
-
-            $property->getModelProperty() && $property->getModelProperty()->setKernelState($encoded);
-        }
+        $encoded = $serializer->serialize($this->kernel);
+        $property->getModelProperty() && $property->getModelProperty()->setKernelState($encoded);
 
         return $result;
     }

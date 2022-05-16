@@ -90,7 +90,7 @@ class Miner
             $token = $doc->traverser->search($entity, $_property);
             $value = $_property->getValue($entity);
 
-            if (!$token) {
+            if (!$token || $value === null) {
                 continue;
             }
 

@@ -92,7 +92,7 @@ class Model implements ModelInterface
             return null;
         }
 
-        $entry = self::createEntry();
+        $entry = $this::createEntry();
         $entry->setDiscriminator($discriminator);
         $this->addEntry($entry);
 
@@ -144,7 +144,7 @@ class Model implements ModelInterface
             return null;
         }
 
-        $label = self::createLabel();
+        $label = $this::createLabel();
         $label->setValue($value);
         $label->setProperty($property->getPropertyPath());
         $this->addLabel($label);
@@ -188,7 +188,7 @@ class Model implements ModelInterface
             return null;
         }
 
-        $property = self::createProperty();
+        $property = $this::createProperty();
         $property->setName($name);
         $this->addProperty($property);
 

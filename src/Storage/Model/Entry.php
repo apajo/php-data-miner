@@ -92,7 +92,7 @@ class Entry implements EntryInterface
         $modelProp = $this->getModel()->getProperty($property, $create);
         $modelProp->setName($property);
 
-        $new = self::createProperty();
+        $new = $this::createProperty();
         $new->setModelProperty($modelProp);
         $this->addProperty($new);
 

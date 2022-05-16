@@ -59,7 +59,7 @@ class Label implements LabelInterface
         return $this->text;
     }
 
-    public function setText(?string $text): void
+    public function setText(?string $text = null): void
     {
         $this->text = $text;
     }

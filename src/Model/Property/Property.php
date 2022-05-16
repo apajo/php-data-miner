@@ -14,9 +14,9 @@ class Property extends AbstractProperty
         $resolver->setDefaults([
             'transformer' => new CallbackTransformer(
                 function ($value) {
-                    return (string)$value;
+                    return $value;
                 }, function ($value) {
-                return (string)$value;
+                return $value;
             }
             ),
         ]);

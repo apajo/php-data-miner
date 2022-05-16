@@ -50,12 +50,12 @@ class Property implements PropertyInterface
      */
     public function getName(): ?string
     {
-        return $this->modelProperty ? $this->modelProperty->getName() : null;
+        return $this->model_property ? $this->model_property->getName() : null;
     }
 
     public function getModelProperty(): ?ModelProperty
     {
-        return $this->modelProperty;
+        return $this->model_property;
     }
 
     public function setModelProperty(?ModelProperty $model_property): void
@@ -83,7 +83,7 @@ class Property implements PropertyInterface
             return null;
         }
 
-        $label = self::createLabel();
+        $label = $this::createLabel();
         $label->setEntry($this->getEntry());
         $this->getEntry()->getModel()->addLabel($label);
 

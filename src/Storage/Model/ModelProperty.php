@@ -22,7 +22,7 @@ class ModelProperty implements ModelPropertyInterface
     /**
      * @var string|null
      */
-    protected ?string $kernelState = null;
+    protected $kernel_state = null;
 
     /**
      * @var Model|null
@@ -31,12 +31,12 @@ class ModelProperty implements ModelPropertyInterface
 
     public function getKernelState(): ?string
     {
-        return $this->kernelState;
+        return $this->kernel_state;
     }
 
     public function setKernelState(?string $kernelState): void
     {
-        $this->kernelState = $kernelState;
+        $this->kernel_state = $kernelState;
     }
 
     public function getName(): string

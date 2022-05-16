@@ -59,10 +59,6 @@ abstract class AbstractProperty implements PropertyInterface, FlattenFeatureVect
 
         $this->kernel = $kernel;
 
-        if (count($features) == 0) {
-            throw new \Exception('Atleast one feature is required per property!');
-        }
-
         $this->features = new ArrayCollection();
         foreach ($features as $feature) {
             $this->addFeature($feature);
