@@ -29,7 +29,7 @@ class Traverser
         return $this->document->get($pointer);
     }
 
-    public function search($entity, PropertyInterface $property = null): ?TokenInterface
+    public function search($entity, PropertyInterface $property): ?TokenInterface
     {
         $target = $property->getValue($entity);
 

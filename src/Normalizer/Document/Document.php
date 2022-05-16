@@ -86,11 +86,11 @@ class Document implements DocumentInterface
             $content = $content->getTokens()->offsetGet($i);
 
             if (!($content instanceof Cluster)) {
-                return $content;
+                break;
             }
         }
 
-        return null;
+        return $content;
     }
 
     /**
