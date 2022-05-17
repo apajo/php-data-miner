@@ -151,7 +151,7 @@ class Miner
 
         $this->model->addEntry($entry);
         //$this->storage->save($this->model);
-dump($entity, $entry);
+
         return $entry;
     }
 
